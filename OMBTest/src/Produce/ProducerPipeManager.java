@@ -20,7 +20,7 @@ public class ProducerPipeManager implements Runnable{
     @Override
     public void run() {
         for (ProducerPipe producerPipe : producerPipeList) {
-            producerPipe.produce(new DataBlock(producerPipe.getProducer().getName()));
+            //producerPipe.produce(new DataBlock(producerPipe.getProducer().getName()));
         }
     }
 }

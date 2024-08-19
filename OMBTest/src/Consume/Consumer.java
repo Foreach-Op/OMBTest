@@ -2,53 +2,40 @@ package Consume;
 
 
 import Broker.DataBlock;
+import Security.User;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
+import java.util.UUID;
 
-public class Consumer {
+public class Consumer extends User {
 
-    private final ConsumerSocket consumerSocket = new ConsumerSocket();
-    private String name;
-    private String hostname;
-    private int port;
 
-    public Consumer(String name, String hostname, int port){
-        this.name = name;
-        this.hostname = hostname;
-        this.port = port;
-        this.consumerSocket.connect(hostname, port);
+    public Consumer(String username, String password, SocketChannel socketChannel) {
+        super(username, password, socketChannel);
     }
 
-    public void sendData(DataBlock dataBlock){
-        try {
-            consumerSocket.sendData(dataBlock);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public Consumer(String name){
+//        this(name,null);
+//    }
+//
+//    public Consumer(String name, SocketChannel socketChannel){
+//        this.name = name;
+//        this.socketChannel = socketChannel;
+//        ConsumerManager.getInstance().subscribeConsumer(this);
+//    }
+
+//    public void sendData(DataBlock dataBlock){
+//        try {
+//            consumerSocket.sendData(dataBlock);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public String getName() {
-        return name;
+        return super.username;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getHostname() {
-        return hostname;
-    }
-
-    public void setHostname(String hostname) {
-        this.hostname = hostname;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
 }
