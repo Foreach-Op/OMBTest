@@ -5,36 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3fbe097-a942-4192-bf90-f8966150dabf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Broker/PartitionManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Consume/ConsumerManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Client/ClassicClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Client/NioClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Client/Protocol/AuthenticationProtocol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Client/Protocol/ChannelRequestProtocol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Client/Protocol/Protocol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Client/Protocol/ProtocolFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Server/NioServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Server/Process/LogInProcessStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Server/Process/Process.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Server/Process/ProcessStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Server/Protocol/AuthenticationProtocol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Server/Protocol/ChannelRequestProtocol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Server/Protocol/Protocol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Server/Protocol/ProtocolFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Useful/Constants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Useful/ORequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Useful/OResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Network/Useful/PhaseEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Broker/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Connection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Broker/OMBDS.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Broker/Server.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consume/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/ConsumerPipeManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerSocket.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Produce/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Produce/Producer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Produce/ProducerPipeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Produce/ProducerPipeManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Network/Server/Phase/PhaseStrategyFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMBTest.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Broker/DataBlock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Broker/Partition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Broker/PartitionManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/Consumer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipeManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/ConsumeHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/ConsumingMethod.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/Consumption.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/ConsumptionStrategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/ConsumptionStrategyFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/QueueBasedConsumptionStrategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/StackBasedConsumptionStrategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/ClassicClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/NioClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/Protocol/AuthenticationProtocol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/Protocol/ChannelRequestProtocol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/Protocol/Protocol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/Protocol/ProtocolFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Connection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/NioServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Process/LogInProcessStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Phase/LogInPhaseStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Process/Process.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Phase/Phase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Process/ProcessStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Phase/PhaseStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Protocol/AuthenticationProtocol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Protocol/ChannelRequestProtocol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Protocol/Protocol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Protocol/ProtocolFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Useful/Constants.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Useful/ORequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Useful/OResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Useful/PhaseEnum.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Produce/Producer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Produce/ProducerPipe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Produce/ProducerPipeManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Produce/Subscription.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Security/User.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +81,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/oguzhantas/Documents/GitHub/OMBTest/OMBTest/src/Network/ClientProtocol",
+    "last_opened_file_path": "/Users/oguzhantas/Documents/GitHub/OMBTest/OMBTest/src/Network/Server/Process",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -80,6 +92,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Network/Server/Process" />
       <recent name="$PROJECT_DIR$/src/Network/ClientProtocol" />
       <recent name="$PROJECT_DIR$/src/Network" />
       <recent name="$PROJECT_DIR$/src/Consumption" />
@@ -124,7 +137,7 @@
       <workItem from="1723803387399" duration="7462000" />
       <workItem from="1723815982181" duration="11108000" />
       <workItem from="1723842526885" duration="7642000" />
-      <workItem from="1723888450123" duration="54270000" />
+      <workItem from="1723888450123" duration="55513000" />
     </task>
     <servers />
   </component>
