@@ -16,12 +16,11 @@ public class UserManager {
         return user;
     }
 
-    public static boolean saveUser(String token, User user){
+    public static void saveUser(String token, User user) throws Exception {
         if(!userHashMap.containsKey(token)){
-            userHashMap.put(token, user);
-            return true;
+            throw new Exception("User already exists.");
         }
-        return false;
+        userHashMap.put(token, user);
     }
 
     public static boolean removeUser(String token){

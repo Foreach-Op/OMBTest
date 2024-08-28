@@ -29,6 +29,7 @@ public class Consumer extends User {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(remoteAddress);
         String t = "consumer"+username+remoteAddress;
         long hash = HashProducer.calculateHash(t.getBytes());
         super.token = String.valueOf(hash);

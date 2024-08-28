@@ -2,16 +2,17 @@ package Network.Useful;
 
 public class OResponse {
     private byte phase;
-    private byte responseType;
+    private byte userType;
     private byte responseStatus;
     private String message;
-    private boolean areChecksumsCompatible;
+    private boolean isChecksumValid;
 
     private OResponse(ResponseBuilder builder) {
-        this.phase=builder.phase;
-        this.responseType =builder.responseType;
-        this.responseStatus =builder.responseStatus;
-        this.message=builder.message;
+        this.phase = builder.phase;
+        this.userType = builder.userType;
+        this.responseStatus = builder.responseStatus;
+        this.message = builder.message;
+        this.isChecksumValid = builder.isChecksumValid;
     }
 
     public byte getPhase() {
@@ -22,12 +23,12 @@ public class OResponse {
         this.phase = phase;
     }
 
-    public byte getResponseType() {
-        return responseType;
+    public byte getUserType() {
+        return userType;
     }
 
-    public void setResponseType(byte responseType) {
-        this.responseType = responseType;
+    public void setUserType(byte userType) {
+        this.userType = userType;
     }
 
     public byte getResponseStatus() {
@@ -46,26 +47,34 @@ public class OResponse {
         this.message = message;
     }
 
-    public boolean areChecksumsCompatible() {
-        return areChecksumsCompatible;
+    public boolean getIsChecksumValid() {
+        return isChecksumValid;
     }
 
-    public void setAreChecksumsCompatible(boolean areChecksumsCompatible) {
-        this.areChecksumsCompatible = areChecksumsCompatible;
+    public void setChecksumValid(boolean checksumValid) {
+        this.isChecksumValid = checksumValid;
     }
 
     public static class ResponseBuilder {
         private final byte phase;
-        private final byte responseType;
-        private final byte responseStatus;
+        private byte userType;
+        private byte responseStatus;
         private String message;
-        private boolean areChecksumsCompatible = true;
+        private boolean isChecksumValid = true;
 
 
-        public ResponseBuilder(byte phase, byte responseType, byte responseStatus) {
+        public ResponseBuilder(byte phase) {
             this.phase = phase;
-            this.responseType = responseType;
+        }
+
+        public ResponseBuilder setResponseStatus(byte responseStatus) {
             this.responseStatus = responseStatus;
+            return this;
+        }
+
+        public ResponseBuilder setUserType(byte userType) {
+            this.userType = userType;
+            return this;
         }
 
         public ResponseBuilder setMessage(String message) {
@@ -73,8 +82,8 @@ public class OResponse {
             return this;
         }
 
-        public ResponseBuilder setAreChecksumsCompatible(boolean areChecksumsCompatible){
-            this.areChecksumsCompatible = areChecksumsCompatible;
+        public ResponseBuilder setChecksumValid(boolean isChecksumValid){
+            this.isChecksumValid = isChecksumValid;
             return this;
         }
 

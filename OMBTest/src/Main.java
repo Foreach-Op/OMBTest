@@ -97,7 +97,7 @@ public class Main {
         ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 4 + messageLength + 8);
 
         buffer.put(request.getPhase()); // Phase
-        buffer.put(request.getRequestType()); // Request Type
+        buffer.put(request.getUserType()); // Request Type
         buffer.putInt(messageLength); // Message Length
         buffer.put(request.getMessage().getBytes()); // Payload
         buffer.putLong(checksum); // Checksum

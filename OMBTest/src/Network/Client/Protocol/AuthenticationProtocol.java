@@ -26,7 +26,7 @@ public class AuthenticationProtocol extends Protocol {
         ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 4 + messageLength + 8);
 
         buffer.put(request.getPhase()); // Phase
-        buffer.put(request.getRequestType()); // Response Type
+        buffer.put(request.getUserType()); // Response Type
         buffer.putInt(messageLength); // Message Length
         buffer.put(payload); // Payload
         buffer.putLong(checksum); // Checksum
@@ -60,8 +60,8 @@ public class AuthenticationProtocol extends Protocol {
         long receivedChecksum = ByteBuffer.wrap(checksum).getLong();
         long calculatedChecksum = HashProducer.calculateHash(requestMessage);
         boolean isCompatible = (receivedChecksum == calculatedChecksum);
-        System.out.println(receivedChecksum);
-        System.out.println(calculatedChecksum);
+//        System.out.println(receivedChecksum);
+//        System.out.println(calculatedChecksum);
         String msg = new String(requestMessage, StandardCharsets.UTF_8);
 
 //        byte type = byteBuffer.get();
@@ -78,6 +78,11 @@ public class AuthenticationProtocol extends Protocol {
 //        long calculatedChecksum = calculateCRC32(payload);
 //        boolean isCompatible = (receivedChecksum == calculatedChecksum);
 //        String msg = new String(payload, StandardCharsets.UTF_8);
-        return new OResponse.ResponseBuilder(Constants.AUTHENTICATION_PHASE, type, status).setMessage(msg.trim()).setAreChecksumsCompatible(isCompatible).build();
+        OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.AUTHENTICATION_PHASE);
+        responseBuilder.setUserType(type);
+        responseBuilder.setResponseStatus(status);
+        responseBuilder.setMessage(msg.trim());
+        responseBuilder.setChecksumValid(isCompatible);
+        return responseBuilder.build();
     }
 }

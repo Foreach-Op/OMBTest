@@ -1,7 +1,8 @@
 package Network.Server.Phase;
 
 import Network.Useful.ORequest;
+import Network.Useful.OResponse;
 
 public interface PhaseStrategy {
-    void execute(ORequest request);
+    OResponse execute(ORequest request);
 }

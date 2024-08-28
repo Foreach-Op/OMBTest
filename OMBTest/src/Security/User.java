@@ -10,6 +10,7 @@ public abstract class User {
 
     public User(String username, SocketChannel socketChannel){
         this.username = username;
+        this.socketChannel = socketChannel;
         createToken();
     }
 

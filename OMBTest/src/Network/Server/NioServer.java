@@ -1,5 +1,8 @@
 package Network.Server;
 
+import Consume.Consumer;
+import Consume.ConsumerManager;
+import Network.Server.Phase.PhaseHandler;
 import Network.Server.Protocol.AuthenticationProtocol;
 import Network.Server.Protocol.Protocol;
 import Network.Server.Protocol.ProtocolHandler;
@@ -7,6 +10,7 @@ import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
 import Security.User;
+import Security.UserManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -17,6 +21,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public class NioServer {
     private HashSet<SocketChannel> clients = new HashSet<>();
@@ -88,14 +93,26 @@ public class NioServer {
 //        Protocol protocol = new AuthenticationProtocol();
 //        ORequest oRequest = protocol.getRequest(buffer);
 //        String receivedMessage = oRequest.getMessage();
-        Protocol protocol1 = ProtocolHandler.getProtocol(buffer);
-        ORequest oRequest1 = protocol1.getRequest(buffer);
+        Protocol readProtocol = ProtocolHandler.getProtocol(buffer);
+        ORequest oRequest1 = readProtocol.getRequest(buffer);
         oRequest1.setSocketChannel(client);
         String receivedMessage = oRequest1.getMessage();
         System.out.println("Received message: " + receivedMessage);
+        OResponse response = PhaseHandler.execute(oRequest1);
+        Protocol writeProtocol = ProtocolHandler.getProtocol(response);
+        writeProtocol.sendResponse(response, client);
+        try {
+            //Consumer consumer = ConsumerManager.getInstance().getConsumer(response.getMessage());
+            List<Consumer> consumers = ConsumerManager.getInstance().getConsumers();
+            for(Consumer c : consumers){
+                System.out.println(c.getName());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 //        OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
 //        protocol.sendResponse(response,client);
-        client.register(selector, SelectionKey.OP_WRITE);
+        client.register(selector, SelectionKey.OP_READ);
 
     }
 
@@ -103,8 +120,8 @@ public class NioServer {
         SocketChannel client = (SocketChannel) key.channel();
         System.out.println("Server message: ");
         Protocol protocol = new AuthenticationProtocol();
-        OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
-        protocol.sendResponse(response,client);
+        //OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
+        //protocol.sendResponse(response,client);
 //        for (int i = 0; i < 100; i++) {
 //            OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
 //            protocol.sendResponse(response,client);

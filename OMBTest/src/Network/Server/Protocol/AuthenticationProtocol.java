@@ -17,7 +17,7 @@ public class AuthenticationProtocol extends Protocol {
 
     @Override
     public ByteBuffer wrap(OResponse response) {
-        // Phase->1 byte, UserType->1 byte, Status->1 byte, Message Size->4 byte, Payload->n byte, Checksum->8 byte, \n->1 byte
+        // Phase->1 byte, UserType->1 byte, Status->1 byte, Message Size->4 byte, Payload->n byte, Checksum->8 byte
         // String encodedMessage = encode(response.getMessage().split(" "));
         String message = response.getMessage();
         message += "\n";
@@ -28,7 +28,7 @@ public class AuthenticationProtocol extends Protocol {
         ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 1 + 4 + messageLength + 8);
 
         buffer.put(response.getPhase()); // Phase
-        buffer.put(response.getResponseType()); // Response Type
+        buffer.put(response.getUserType()); // Response Type
         buffer.put(response.getResponseStatus()); // Response Status
         buffer.putInt(messageLength); // Message Length
         buffer.put(payload); // Payload
@@ -42,7 +42,7 @@ public class AuthenticationProtocol extends Protocol {
     @Override
     public ORequest extract(ByteBuffer byteBuffer) throws IOException {
         // Phase->1 byte (Already captured), UserType->1 byte, Payload Size->4 byte, Payload->n byte, Checksum->8 byte
-        byte phase = byteBuffer.get();
+        // byte phase = byteBuffer.get();
         byte type = byteBuffer.get();
         byte[] size = new byte[4];
         byteBuffer.get(size, 0, size.length);
@@ -51,10 +51,13 @@ public class AuthenticationProtocol extends Protocol {
         byteBuffer.get(payload, 0, messageLength);
         long receivedChecksum = byteBuffer.getLong();
         long calculatedChecksum = HashProducer.calculateHash(payload);
-        boolean compatible = (receivedChecksum == calculatedChecksum);
-        System.out.println(receivedChecksum);
-        System.out.println(calculatedChecksum);
+        boolean isCompatible = (receivedChecksum == calculatedChecksum);
         String msg = new String(payload, StandardCharsets.UTF_8);
-        return new ORequest.RequestBuilder(Constants.AUTHENTICATION_PHASE, type).setMessage(msg).setChecksumValid(compatible).build();
+
+        ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.AUTHENTICATION_PHASE);
+        requestBuilder.setUserType(type);
+        requestBuilder.setMessage(msg);
+        requestBuilder.setChecksumValid(isCompatible);
+        return requestBuilder.build();
     }
 }

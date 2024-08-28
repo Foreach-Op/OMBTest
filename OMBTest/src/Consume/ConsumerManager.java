@@ -30,13 +30,14 @@ public class ConsumerManager {
         return true;
     }
 
-    public synchronized void subscribeConsumer(Consumer consumer){
-        //consumerMap.put(consumer.getUnique(), consumer);
-        //consumerPipeMap.put(consumer.getUnique(), new ArrayList<>());
+    public Consumer getConsumer(String token) throws Exception {
+        if(!consumerMap.containsKey(token))
+            throw new Exception("Token is not in the system");
+        return consumerMap.get(token);
     }
 
-    public synchronized void unsubscribeConsumer(String unique){
-        consumerMap.remove(unique);
+    public List<Consumer> getConsumers() throws Exception {
+        return consumerMap.values().stream().toList();
     }
 
 

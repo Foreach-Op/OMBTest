@@ -4,7 +4,7 @@ import java.nio.channels.SocketChannel;
 
 public class ORequest {
     private byte phase;
-    private byte requestType;
+    private byte userType;
     private String message;
     private String token;
     private boolean isChecksumValid;
@@ -12,7 +12,7 @@ public class ORequest {
 
     private ORequest(RequestBuilder builder) {
         this.phase=builder.phase;
-        this.requestType=builder.requestType;
+        this.userType =builder.userType;
         this.message=builder.message;
         this.token=builder.token;
         this.isChecksumValid =builder.isChecksumValid;
@@ -26,12 +26,12 @@ public class ORequest {
         this.phase = phase;
     }
 
-    public byte getRequestType() {
-        return requestType;
+    public byte getUserType() {
+        return userType;
     }
 
-    public void setRequestType(byte requestType) {
-        this.requestType = requestType;
+    public void setUserType(byte userType) {
+        this.userType = userType;
     }
 
     public String getMessage() {
@@ -68,15 +68,19 @@ public class ORequest {
 
     public static class RequestBuilder {
         private final byte phase;
-        private final byte requestType;
+        private byte userType;
         private String message = "";
         private String token;
         private boolean isChecksumValid = true;
         private SocketChannel socketChannel;
 
-        public RequestBuilder(byte phase, byte requestType) {
+        public RequestBuilder(byte phase) {
             this.phase = phase;
-            this.requestType = requestType;
+        }
+
+        public RequestBuilder setUserType(byte userType) {
+            this.userType = userType;
+            return this;
         }
 
         public RequestBuilder setMessage(String message) {
@@ -89,8 +93,8 @@ public class ORequest {
             return this;
         }
 
-        public RequestBuilder setChecksumValid(boolean checksumValid){
-            this.isChecksumValid = checksumValid;
+        public RequestBuilder setChecksumValid(boolean isChecksumValid){
+            this.isChecksumValid = isChecksumValid;
             return this;
         }
 

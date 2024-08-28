@@ -16,11 +16,8 @@ public class Constants {
     public static final byte CMD_PHASE=0x02;
     public static final byte QUERYING_PHASE = 0x03;
 
-    public static final byte AUTH_INIT = 0x00;
-    public static final byte AUTH_USERNAME = 0x01;
-    public static final byte AUTH_PASSWORD = 0x02;
-    public static final byte AUTH_SUCCESS = 0x03;
-    public static final byte AUTH_FAIL = 0x04;
+    public static final byte AUTH_SUCCESS = 0x00;
+    public static final byte AUTH_FAIL = 0x01;
 
     public static final byte PRODUCER = 0x00;
     public static final byte CONSUMER = 0x01;

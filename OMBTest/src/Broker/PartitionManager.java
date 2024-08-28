@@ -16,11 +16,10 @@ public class PartitionManager {
         return partitionManager;
     }
 
-    public synchronized boolean addPartition(Partition partition){
+    public synchronized void addPartition(Partition partition) throws Exception {
         if(partitionHashMap.containsKey(partition.getName()))
-            return false;
+            throw new Exception("Partition already exists");
         partitionHashMap.put(partition.getName(), partition);
-        return true;
     }
 
     public Partition getPartition(String partitionName) throws Exception {
