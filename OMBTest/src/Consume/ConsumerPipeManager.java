@@ -16,7 +16,7 @@ public class ConsumerPipeManager implements Runnable{
         this.consumerPipeList = new ArrayList<>();
     }
 
-    public void submitConsumerPipe(ConsumerPipe consumerPipe){
+    public void addConsumerPipe(ConsumerPipe consumerPipe){
         consumerPipeList.add(consumerPipe);
     }
 

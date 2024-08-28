@@ -1,6 +1,7 @@
 package Network.Server.Protocol;
 
 import Network.Useful.Constants;
+import Network.Useful.HashProducer;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
 
@@ -22,7 +23,8 @@ public class AuthenticationProtocol extends Protocol {
         message += "\n";
         int messageLength = message.length();
         byte[] payload = message.getBytes();
-        long checksum = calculateCRC32(payload);
+        long checksum = HashProducer.calculateHash(payload);
+
         ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 1 + 4 + messageLength + 8);
 
         buffer.put(response.getPhase()); // Phase
@@ -48,11 +50,11 @@ public class AuthenticationProtocol extends Protocol {
         byte[] payload = new byte[messageLength];
         byteBuffer.get(payload, 0, messageLength);
         long receivedChecksum = byteBuffer.getLong();
-        long calculatedChecksum = calculateCRC32(payload);
+        long calculatedChecksum = HashProducer.calculateHash(payload);
         boolean compatible = (receivedChecksum == calculatedChecksum);
         System.out.println(receivedChecksum);
         System.out.println(calculatedChecksum);
         String msg = new String(payload, StandardCharsets.UTF_8);
-        return new ORequest.RequestBuilder(Constants.AUTHENTICATION_PHASE, type).setMessage(msg).setAreChecksumsCompatible(compatible).build();
+        return new ORequest.RequestBuilder(Constants.AUTHENTICATION_PHASE, type).setMessage(msg).setChecksumValid(compatible).build();
     }
 }

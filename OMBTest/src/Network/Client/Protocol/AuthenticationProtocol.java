@@ -1,6 +1,7 @@
 package Network.Client.Protocol;
 
 import Network.Useful.Constants;
+import Network.Useful.HashProducer;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
 
@@ -21,7 +22,7 @@ public class AuthenticationProtocol extends Protocol {
         // Phase->1 byte, UserType->1 byte, Message Size->4 byte, Payload->n byte, Checksum->8 byte
         int messageLength = request.getMessage().length();
         byte[] payload = request.getMessage().getBytes();
-        long checksum = calculateCRC32(payload);
+        long checksum = HashProducer.calculateHash(payload);
         ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 4 + messageLength + 8);
 
         buffer.put(request.getPhase()); // Phase
@@ -57,7 +58,7 @@ public class AuthenticationProtocol extends Protocol {
         err = inputStream.read(checksum,0, checksum.length);
         if (err == -1) throw new EOFException();
         long receivedChecksum = ByteBuffer.wrap(checksum).getLong();
-        long calculatedChecksum = calculateCRC32(requestMessage);
+        long calculatedChecksum = HashProducer.calculateHash(requestMessage);
         boolean isCompatible = (receivedChecksum == calculatedChecksum);
         System.out.println(receivedChecksum);
         System.out.println(calculatedChecksum);

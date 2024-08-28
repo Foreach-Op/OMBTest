@@ -2,6 +2,7 @@ package Network.Server;
 
 import Network.Server.Protocol.AuthenticationProtocol;
 import Network.Server.Protocol.Protocol;
+import Network.Server.Protocol.ProtocolHandler;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
@@ -20,6 +21,7 @@ import java.util.HashSet;
 public class NioServer {
     private HashSet<SocketChannel> clients = new HashSet<>();
     private HashMap<User, SocketChannel> userSocketChannelMap = new HashMap<>();
+    private HashMap<String, User> userHashMap = new HashMap<>();
     private ByteBuffer buffer = ByteBuffer.allocate(1024);
 
     public void start(final int portNumber) throws IOException{
@@ -83,10 +85,13 @@ public class NioServer {
         }
         buffer.flip();
 
-        Protocol protocol = new AuthenticationProtocol();
-        ORequest oRequest = protocol.getRequest(buffer);
-        String receivedMessage = oRequest.getMessage();
-
+//        Protocol protocol = new AuthenticationProtocol();
+//        ORequest oRequest = protocol.getRequest(buffer);
+//        String receivedMessage = oRequest.getMessage();
+        Protocol protocol1 = ProtocolHandler.getProtocol(buffer);
+        ORequest oRequest1 = protocol1.getRequest(buffer);
+        oRequest1.setSocketChannel(client);
+        String receivedMessage = oRequest1.getMessage();
         System.out.println("Received message: " + receivedMessage);
 //        OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
 //        protocol.sendResponse(response,client);

@@ -7,8 +7,7 @@ import java.util.Map;
 
 public class ConsumerManager {
     private static ConsumerManager consumerManager;
-    private Map<String, Consumer> consumerMap = new HashMap<>();
-    private Map<String, List<ConsumerPipe>> consumerPipeMap = new HashMap<>();
+    private final Map<String, Consumer> consumerMap = new HashMap<>();
 
     private ConsumerManager(){}
 
@@ -16,6 +15,19 @@ public class ConsumerManager {
         if(consumerManager==null)
             consumerManager = new ConsumerManager();
         return consumerManager;
+    }
+
+    public synchronized void addConsumer(String token, Consumer consumer) throws Exception {
+        if(consumerMap.containsKey(token))
+            throw new Exception("User already is in the system");
+        consumerMap.put(token, consumer);
+    }
+
+    public synchronized boolean removeConsumer(String token){
+        if(!consumerMap.containsKey(token))
+            return false;
+        consumerMap.remove(token);
+        return true;
     }
 
     public synchronized void subscribeConsumer(Consumer consumer){
@@ -27,12 +39,5 @@ public class ConsumerManager {
         consumerMap.remove(unique);
     }
 
-    public synchronized void subscribePipe(String unique, ConsumerPipe consumerPipe){
-        List<ConsumerPipe> consumerPipeList = consumerPipeMap.get(unique);
-        consumerPipeList.add(consumerPipe);
-    }
 
-    public synchronized void unsubscribePipe(String unique, ConsumerPipe consumerPipe){
-        consumerPipeMap.get(consumerMap.get(unique));
-    }
 }

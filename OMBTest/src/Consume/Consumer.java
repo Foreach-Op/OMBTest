@@ -2,18 +2,48 @@ package Consume;
 
 
 import Broker.DataBlock;
+import Network.Useful.HashProducer;
 import Security.User;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Consumer extends User {
 
+    private final ConsumerThread consumerThread = new ConsumerThread();
 
-    public Consumer(String username, String password, SocketChannel socketChannel) {
-        super(username, password, socketChannel);
+    public Consumer(String username, SocketChannel socketChannel) {
+        super(username, socketChannel);
+    }
+
+    @Override
+    public void createToken() {
+        String remoteAddress = "";
+        try {
+            remoteAddress = socketChannel.getRemoteAddress().toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String t = "consumer"+username+remoteAddress;
+        long hash = HashProducer.calculateHash(t.getBytes());
+        super.token = String.valueOf(hash);
+    }
+
+    public void addConsumerPipe(ConsumerPipe consumerPipe){
+        consumerThread.addConsumerPipe(consumerPipe);
+    }
+
+    public void removeConsumerPipe(ConsumerPipe consumerPipe){
+        consumerThread.removeConsumerPipe(consumerPipe);
+    }
+
+    public void terminate(){
+        consumerThread.exit();
     }
 
 //    public Consumer(String name){

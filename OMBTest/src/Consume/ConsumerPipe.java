@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConsumerPipe {
-    private final Consumer consumer;
     private final Partition partition;
     private ConsumeHandler consumeHandler;
     private ConsumingMethod consumingMethod;
@@ -19,8 +18,7 @@ public class ConsumerPipe {
     private int header;
     private int totalPipedData;
 
-    public ConsumerPipe(Consumer consumer, Partition partition, ConsumingMethod consumingMethod){
-        this.consumer = consumer;
+    public ConsumerPipe(Partition partition, ConsumingMethod consumingMethod){
         this.partition = partition;
         this.consumingMethod = consumingMethod;
         this.consumeHandler = new ConsumeHandler();
@@ -33,10 +31,6 @@ public class ConsumerPipe {
         if(dataBlock != null)
             totalPipedData += 1;
         return dataBlock;
-    }
-
-    public Consumer getConsumer() {
-        return consumer;
     }
 
     public Partition getPartition() {
