@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -19,20 +20,6 @@ public class Consumer extends User {
 
     public Consumer(String username, SocketChannel socketChannel) {
         super(username, socketChannel);
-    }
-
-    @Override
-    public void createToken() {
-        String remoteAddress = "";
-        try {
-            remoteAddress = socketChannel.getRemoteAddress().toString();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(remoteAddress);
-        String t = "consumer"+username+remoteAddress;
-        long hash = HashProducer.calculateHash(t.getBytes());
-        super.token = String.valueOf(hash);
     }
 
     public void addConsumerPipe(ConsumerPipe consumerPipe){

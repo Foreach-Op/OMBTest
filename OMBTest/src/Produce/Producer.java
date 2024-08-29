@@ -12,16 +12,4 @@ public class Producer extends User {
         super(username, socketChannel);
     }
 
-    @Override
-    public void createToken() {
-        String remoteAddress = "";
-        try {
-            remoteAddress = socketChannel.getRemoteAddress().toString();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String t = "producer"+username+remoteAddress;
-        long hash = HashProducer.calculateHash(t.getBytes());
-        super.token = String.valueOf(hash);
-    }
 }

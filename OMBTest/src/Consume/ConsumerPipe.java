@@ -64,4 +64,13 @@ public class ConsumerPipe {
     public int getTotalPipedData() {
         return totalPipedData;
     }
+
+    @Override
+    public String toString() {
+        return "ConsumerPipe{" +
+                "partition=" + partition +
+                ", consumingMethod=" + consumingMethod +
+                ", totalPipedData=" + totalPipedData +
+                '}';
+    }
 }

@@ -41,7 +41,11 @@ public class AuthenticationProtocol extends Protocol {
 
     @Override
     public ORequest extract(ByteBuffer byteBuffer) throws IOException {
-        // Phase->1 byte (Already captured), UserType->1 byte, Payload Size->4 byte, Payload->n byte, Checksum->8 byte
+        // Phase->1 byte (Already captured),
+        // UserType->1 byte,
+        // Payload Size->4 byte,
+        // Payload->n byte,
+        // Checksum->8 byte
         // byte phase = byteBuffer.get();
         byte type = byteBuffer.get();
         byte[] size = new byte[4];
@@ -55,9 +59,7 @@ public class AuthenticationProtocol extends Protocol {
         String msg = new String(payload, StandardCharsets.UTF_8);
 
         ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.AUTHENTICATION_PHASE);
-        requestBuilder.setUserType(type);
-        requestBuilder.setMessage(msg);
-        requestBuilder.setChecksumValid(isCompatible);
+        requestBuilder.setUserType(type).setMessage(msg).setChecksumValid(isCompatible);
         return requestBuilder.build();
     }
 }

@@ -10,6 +10,8 @@ public class ProtocolFactory {
         Protocol protocol = new AuthenticationProtocol();
         if(phase == Constants.AUTHENTICATION_PHASE){
             protocol = new AuthenticationProtocol();
+        } else if (phase == Constants.CHANNEL_CREATE_PHASE) {
+            protocol = new ChannelRequestProtocol();
         }
         return protocol;
     }

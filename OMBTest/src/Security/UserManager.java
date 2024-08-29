@@ -17,7 +17,7 @@ public class UserManager {
     }
 
     public static void saveUser(String token, User user) throws Exception {
-        if(!userHashMap.containsKey(token)){
+        if(userHashMap.containsKey(token)){
             throw new Exception("User already exists.");
         }
         userHashMap.put(token, user);

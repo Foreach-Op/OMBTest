@@ -1,6 +1,7 @@
 package Network.Client;
 
 import Network.Client.Protocol.AuthenticationProtocol;
+import Network.Client.Protocol.ChannelRequestProtocol;
 import Network.Client.Protocol.Protocol;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class ClassicClient {
     public final String username = "admin";
-    public final String password = "admin2";
+    public final String password = "admin";
     public String token = "";
     public void start(int port){
         try (Socket socket = new Socket("localhost", port);
@@ -20,12 +21,10 @@ public class ClassicClient {
              OutputStream outputStream = socket.getOutputStream();
              InputStream inputStream = socket.getInputStream()) {
             boolean isAuthenticated = false;
-            while (true){
+            isAuthenticated = authenticate(outputStream, inputStream);
+            connectToPartition(outputStream, inputStream);
+            while (isAuthenticated){
                 // Send message to server
-
-                if(!isAuthenticated){
-                    isAuthenticated = authenticate(outputStream, inputStream);
-                }
 
                 // Receive response from server
 //                System.out.println("From server: "+response.getMessage().trim());
@@ -62,5 +61,31 @@ public class ClassicClient {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void connectToPartition(OutputStream output, InputStream inputStream){
+        Protocol protocol = new ChannelRequestProtocol();
+        try {
+            protocol.sendRequest(new ORequest.RequestBuilder(Constants.CHANNEL_CREATE_PHASE)
+                            .setUserType(Constants.PRODUCER)
+                            .setMessage("channel2")
+                            .setToken(token).build(),
+                    output);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            OResponse response = protocol.getResponse(inputStream);
+            if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
+                String msg = response.getMessage();
+                System.out.println("Channel created: " + msg);
+            }else {
+                System.err.println(response.getMessage());
+                throw new RuntimeException(response.getMessage());
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

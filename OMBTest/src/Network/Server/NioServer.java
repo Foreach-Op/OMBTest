@@ -2,6 +2,8 @@ package Network.Server;
 
 import Consume.Consumer;
 import Consume.ConsumerManager;
+import Consume.ConsumerPipe;
+import Consume.ConsumerPipeManagerNew;
 import Network.Server.Phase.PhaseHandler;
 import Network.Server.Protocol.AuthenticationProtocol;
 import Network.Server.Protocol.Protocol;
@@ -9,6 +11,8 @@ import Network.Server.Protocol.ProtocolHandler;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
+import Produce.ProducerPipe;
+import Produce.ProducerPipeManager;
 import Security.User;
 import Security.UserManager;
 
@@ -22,6 +26,7 @@ import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class NioServer {
     private HashSet<SocketChannel> clients = new HashSet<>();
@@ -102,10 +107,25 @@ public class NioServer {
         Protocol writeProtocol = ProtocolHandler.getProtocol(response);
         writeProtocol.sendResponse(response, client);
         try {
+            System.out.println("Users:");
             //Consumer consumer = ConsumerManager.getInstance().getConsumer(response.getMessage());
             List<Consumer> consumers = ConsumerManager.getInstance().getConsumers();
             for(Consumer c : consumers){
                 System.out.println(c.getName());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            System.out.println("Channels:");
+            //Consumer consumer = ConsumerManager.getInstance().getConsumer(response.getMessage());
+            Map<String, List<ProducerPipe>> producerPipeMap = ProducerPipeManager.getInstance().getPipes();
+            for(String token : producerPipeMap.keySet()){
+                System.out.println(producerPipeMap.get(token));
+            }
+            Map<String, List<ConsumerPipe>> cosumerPipeMap = ConsumerPipeManagerNew.getInstance().getPipes();
+            for(String token : cosumerPipeMap.keySet()){
+                System.out.println(cosumerPipeMap.get(token));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

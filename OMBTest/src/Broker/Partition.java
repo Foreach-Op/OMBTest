@@ -75,4 +75,12 @@ public class Partition {
     public void setPartitionLimit(int partitionLimit){
         this.partitionLimit = partitionLimit;
     }
+
+    @Override
+    public String toString() {
+        return "Partition{" +
+                "name='" + name + '\'' +
+                ", totalAddedData=" + totalAddedData +
+                '}';
+    }
 }

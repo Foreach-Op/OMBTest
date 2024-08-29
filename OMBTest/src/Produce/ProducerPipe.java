@@ -19,4 +19,12 @@ public class ProducerPipe {
     public void produce(DataBlock dataBlock){
         partition.add(dataBlock);
     }
+
+    @Override
+    public String toString() {
+        return "ProducerPipe{" +
+                "partition=" + partition +
+                ", localDateTime=" + localDateTime +
+                '}';
+    }
 }

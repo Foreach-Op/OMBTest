@@ -1,6 +1,7 @@
 package Produce;
 
 import Broker.DataBlock;
+import Broker.Partition;
 import Consume.ConsumerPipe;
 import Consume.ConsumerPipeManagerNew;
 
@@ -21,12 +22,17 @@ public class ProducerPipeManager {
         return producerPipeManager;
     }
 
-    public synchronized void addProducerPipe(String token, ProducerPipe producerPipe){
+    public synchronized void addProducerPipe(String token, Partition partition){
+        ProducerPipe producerPipe = new ProducerPipe(partition);
         if(!map.containsKey(token)){
             map.put(token, new ArrayList<>());
         }
         List<ProducerPipe> producerPipes = map.get(token);
         producerPipes.add(producerPipe);
         map.put(token, producerPipes);
+    }
+
+    public Map<String, List<ProducerPipe>> getPipes(){
+        return map;
     }
 }

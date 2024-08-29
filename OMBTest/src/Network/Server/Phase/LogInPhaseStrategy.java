@@ -33,6 +33,7 @@ public class LogInPhaseStrategy implements PhaseStrategy {
         try {
             user = handleUser(userType, username, request.getSocketChannel());
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             responseBuilder.setResponseStatus(Constants.AUTH_FAIL).setMessage(e.getMessage());
             return responseBuilder.build();
         }

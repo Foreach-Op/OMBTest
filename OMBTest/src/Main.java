@@ -5,9 +5,8 @@ import Network.Useful.ORequest;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.security.SecureRandom;
+import java.util.*;
 import java.util.zip.CRC32;
 
 public class Main {
@@ -21,6 +20,17 @@ public class Main {
         //startProducing();
         //startConsuming();
         int portNumber = 12345;
+        SecureRandom random = new SecureRandom();
+        byte[] randomBytes = new byte[8];
+        random.nextBytes(randomBytes);
+        randomBytes[0] = 'C';
+        for (byte newByte : randomBytes) {
+            System.out.print(newByte+" ");
+        }
+        System.out.println();
+        String randomString = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+        System.out.println(randomString);
+        System.out.println(randomBytes.length);
 
         try(Scanner scanner = new Scanner(System.in)){
             System.out.println("Is this a server?");

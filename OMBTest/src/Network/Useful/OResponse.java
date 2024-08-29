@@ -5,6 +5,7 @@ public class OResponse {
     private byte userType;
     private byte responseStatus;
     private String message;
+    private String token;
     private boolean isChecksumValid;
 
     private OResponse(ResponseBuilder builder) {
@@ -12,6 +13,7 @@ public class OResponse {
         this.userType = builder.userType;
         this.responseStatus = builder.responseStatus;
         this.message = builder.message;
+        this.token = builder.token;
         this.isChecksumValid = builder.isChecksumValid;
     }
 
@@ -43,6 +45,10 @@ public class OResponse {
         return message;
     }
 
+    public String getToken() {
+        return token;
+    }
+
     public void setMessage(String message) {
         this.message = message;
     }
@@ -60,6 +66,8 @@ public class OResponse {
         private byte userType;
         private byte responseStatus;
         private String message;
+        private String token;
+
         private boolean isChecksumValid = true;
 
 
@@ -79,6 +87,11 @@ public class OResponse {
 
         public ResponseBuilder setMessage(String message) {
             this.message = message;
+            return this;
+        }
+
+        public ResponseBuilder setToken(String token) {
+            this.token = token;
             return this;
         }
 

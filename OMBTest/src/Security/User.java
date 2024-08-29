@@ -1,12 +1,20 @@
 package Security;
 
+import Network.Useful.HashProducer;
+
+import java.io.IOException;
 import java.nio.channels.SocketChannel;
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.Random;
+import java.util.UUID;
 
 public abstract class User {
     protected SocketChannel socketChannel;
     protected String username;
-    protected String role;
     protected String token;
+    protected byte role;
+
 
     public User(String username, SocketChannel socketChannel){
         this.username = username;
@@ -34,11 +42,11 @@ public abstract class User {
         this.username = username;
     }
 
-    public String getRole() {
+    public byte getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(byte role) {
         this.role = role;
     }
 
@@ -46,5 +54,17 @@ public abstract class User {
         this.token = token;
     }
 
-    public abstract void createToken();
+    private void createToken(){
+        SecureRandom random = new SecureRandom();
+        byte[] randomBytes = new byte[8];
+        random.nextBytes(randomBytes);
+        StringBuilder hexString = new StringBuilder(2 * randomBytes.length);
+        for (byte b : randomBytes) {
+            hexString.append(String.format("%02x", b));
+        }
+        this.token = hexString.toString();
+        System.out.println("Token:"+this.token);
+        System.out.println("Token Length:"+this.token.getBytes().length);
+        //this.token = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+    }
 }

@@ -16,10 +16,12 @@ public class PartitionManager {
         return partitionManager;
     }
 
-    public synchronized void addPartition(Partition partition) throws Exception {
-        if(partitionHashMap.containsKey(partition.getName()))
-            throw new Exception("Partition already exists");
-        partitionHashMap.put(partition.getName(), partition);
+    public synchronized Partition addPartitionIfNotExists(String partitionName) throws Exception {
+        if(partitionHashMap.containsKey(partitionName))
+            return partitionHashMap.get(partitionName);
+        Partition partition = new Partition(partitionName);
+        partitionHashMap.put(partitionName, partition);
+        return partition;
     }
 
     public Partition getPartition(String partitionName) throws Exception {
