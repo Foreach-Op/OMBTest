@@ -1,5 +1,8 @@
 package Consume;
 
+import Broker.DataBlock;
+
+import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +24,7 @@ public class ConsumerManager {
         if(consumerMap.containsKey(token))
             throw new Exception("User already is in the system");
         consumerMap.put(token, consumer);
+        System.out.println(consumerMap.get(token));
     }
 
     public synchronized boolean removeConsumer(String token){
@@ -31,6 +35,11 @@ public class ConsumerManager {
     }
 
     public Consumer getConsumer(String token) throws Exception {
+        System.out.println("------");
+        System.out.println(consumerMap.keySet().size());
+        for (String tok:consumerMap.keySet()){
+            System.out.println(tok);
+        }
         if(!consumerMap.containsKey(token))
             throw new Exception("Token is not in the system");
         return consumerMap.get(token);
@@ -38,6 +47,12 @@ public class ConsumerManager {
 
     public List<Consumer> getConsumers() throws Exception {
         return consumerMap.values().stream().toList();
+    }
+
+    public void addData(String token, List<DataBlock> dataBlocks){
+        if(!consumerMap.containsKey(token))
+            return;
+        consumerMap.get(token).addDataBlocksToQueue(dataBlocks);
     }
 
 

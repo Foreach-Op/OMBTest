@@ -1,4 +1,5 @@
-import Network.Client.ClassicClient;
+import Network.Client.ClassicClientC;
+import Network.Client.ClassicClientP;
 import Network.Client.NioClient;
 import Network.Server.NioServer;
 import Network.Useful.ORequest;
@@ -19,18 +20,8 @@ public class Main {
     public static void main(String[] args) {
         //startProducing();
         //startConsuming();
+
         int portNumber = 12345;
-        SecureRandom random = new SecureRandom();
-        byte[] randomBytes = new byte[8];
-        random.nextBytes(randomBytes);
-        randomBytes[0] = 'C';
-        for (byte newByte : randomBytes) {
-            System.out.print(newByte+" ");
-        }
-        System.out.println();
-        String randomString = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
-        System.out.println(randomString);
-        System.out.println(randomBytes.length);
 
         try(Scanner scanner = new Scanner(System.in)){
             System.out.println("Is this a server?");
@@ -39,11 +30,11 @@ public class Main {
                 System.out.println("NIO Server");
                 startServer(portNumber);
             } else if (res.equalsIgnoreCase("c")) {
-                System.out.println("Classic Client");
-                startClassicClient(portNumber);
-            } else{
-                System.out.println("NIO Client");
-                startClient(portNumber, scanner);
+                System.out.println("Consumer Client");
+                startConsumerClient(portNumber);
+            } else if(res.equalsIgnoreCase("p")){
+                System.out.println("Producer Client");
+                startProducerClient(portNumber);
             }
         }
 //        ByteBuffer buffer = constructMessage(new ORequest.RequestBuilder((byte) 3, (byte) 4).setMessage("HelloWorld").build());
@@ -134,8 +125,12 @@ public class Main {
         new NioClient().start(portNumber, scanner);
     }
 
-    public static void startClassicClient(int portNumber){
-        new ClassicClient().start(portNumber);
+    public static void startConsumerClient(int portNumber){
+        new ClassicClientC().start(portNumber);
+    }
+
+    public static void startProducerClient(int portNumber){
+        new ClassicClientP().start(portNumber);
     }
 
 //    public static void startProducing(){

@@ -9,7 +9,7 @@ import java.nio.channels.SocketChannel;
 public class Producer extends User {
 
     public Producer(String username, SocketChannel socketChannel) {
-        super(username, socketChannel);
+        super(username, socketChannel, "P");
     }
 
 }

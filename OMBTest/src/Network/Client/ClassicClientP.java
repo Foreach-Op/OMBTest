@@ -2,6 +2,7 @@ package Network.Client;
 
 import Network.Client.Protocol.AuthenticationProtocol;
 import Network.Client.Protocol.ChannelRequestProtocol;
+import Network.Client.Protocol.DataConveyingProtocol;
 import Network.Client.Protocol.Protocol;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
@@ -11,7 +12,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ClassicClient {
+public class ClassicClientP {
     public final String username = "admin";
     public final String password = "admin";
     public String token = "";
@@ -23,7 +24,15 @@ public class ClassicClient {
             boolean isAuthenticated = false;
             isAuthenticated = authenticate(outputStream, inputStream);
             connectToPartition(outputStream, inputStream);
+            int i = 0;
             while (isAuthenticated){
+                Protocol protocol = new DataConveyingProtocol();
+                ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.DATA_PHASE);
+                requestBuilder.setToken(token).setMessage("Data Block " + i);
+                i++;
+                protocol.sendRequest(requestBuilder.build(), outputStream);
+                System.out.println(requestBuilder.build().getMessage());
+                Thread.sleep(1000);
                 // Send message to server
 
                 // Receive response from server
@@ -41,7 +50,7 @@ public class ClassicClient {
         Protocol protocol = new AuthenticationProtocol();
         String message = username + " " + password;
         try {
-            protocol.sendRequest(new ORequest.RequestBuilder(Constants.AUTHENTICATION_PHASE).setUserType(Constants.CONSUMER).setMessage(message).build(),
+            protocol.sendRequest(new ORequest.RequestBuilder(Constants.AUTHENTICATION_PHASE).setUserType(Constants.PRODUCER).setMessage(message).build(),
                     output);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -67,8 +76,7 @@ public class ClassicClient {
         Protocol protocol = new ChannelRequestProtocol();
         try {
             protocol.sendRequest(new ORequest.RequestBuilder(Constants.CHANNEL_CREATE_PHASE)
-                            .setUserType(Constants.PRODUCER)
-                            .setMessage("channel2")
+                            .setMessage("channel1")
                             .setToken(token).build(),
                     output);
         } catch (IOException e) {

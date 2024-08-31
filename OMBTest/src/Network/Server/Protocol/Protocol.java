@@ -29,7 +29,6 @@ public abstract class Protocol {
         ByteBuffer message = wrap(response);
         // payload.flip();
         int res = channel.write(message);
-        System.out.println(res);
     }
 
     public final ORequest getRequest(ByteBuffer byteBuffer){
@@ -38,13 +37,6 @@ public abstract class Protocol {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public long calculateCRC32(byte[] bytes) {
-        // 8 bytes
-        CRC32 crc = new CRC32();
-        crc.update(bytes);
-        return crc.getValue();
     }
 
     public String encode(String[] data){

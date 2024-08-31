@@ -16,10 +16,10 @@ public abstract class User {
     protected byte role;
 
 
-    public User(String username, SocketChannel socketChannel){
+    public User(String username, SocketChannel socketChannel, String type){
         this.username = username;
         this.socketChannel = socketChannel;
-        createToken();
+        this.token = TokenProcess.createToken(type);
     }
 
     public SocketChannel getSocketChannel() {
@@ -54,7 +54,7 @@ public abstract class User {
         this.token = token;
     }
 
-    private void createToken(){
+    private void createToken(String type){
         SecureRandom random = new SecureRandom();
         byte[] randomBytes = new byte[8];
         random.nextBytes(randomBytes);
@@ -62,9 +62,11 @@ public abstract class User {
         for (byte b : randomBytes) {
             hexString.append(String.format("%02x", b));
         }
-        this.token = hexString.toString();
+        String str = hexString.toString();
+        StringBuilder stringBuilder = new StringBuilder(str);
+        stringBuilder.replace(0,1, type);
+        this.token = stringBuilder.toString();
         System.out.println("Token:"+this.token);
         System.out.println("Token Length:"+this.token.getBytes().length);
-        //this.token = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
     }
 }

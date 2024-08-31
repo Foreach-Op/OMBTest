@@ -1,11 +1,9 @@
 package Network.Server;
 
-import Consume.Consumer;
-import Consume.ConsumerManager;
-import Consume.ConsumerPipe;
-import Consume.ConsumerPipeManagerNew;
+import Broker.DataBlock;
+import Consume.*;
 import Network.Server.Phase.PhaseHandler;
-import Network.Server.Protocol.AuthenticationProtocol;
+import Network.Server.Protocol.DataConveyingProtocol;
 import Network.Server.Protocol.Protocol;
 import Network.Server.Protocol.ProtocolHandler;
 import Network.Useful.Constants;
@@ -14,7 +12,6 @@ import Network.Useful.OResponse;
 import Produce.ProducerPipe;
 import Produce.ProducerPipeManager;
 import Security.User;
-import Security.UserManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -47,13 +44,18 @@ public class NioServer {
 
                 for(SelectionKey key : selector.selectedKeys()){
                     if (!key.isValid()) {
+                        System.out.println("Not Valid");
                         continue;
                     }
                     if (key.isAcceptable()){
                         accept(selector, key);
-                    } else if (key.isReadable()) {
+                    }
+                    if (key.isReadable()) {
+                        System.out.println("Reading");
                         read(selector, key);
-                    } else if (key.isWritable()) {
+                    }
+                    if (key.isWritable()) {
+                        System.out.println("Writing");
                         write(selector, key);
                     }
                 }
@@ -95,51 +97,33 @@ public class NioServer {
         }
         buffer.flip();
 
-//        Protocol protocol = new AuthenticationProtocol();
-//        ORequest oRequest = protocol.getRequest(buffer);
-//        String receivedMessage = oRequest.getMessage();
         Protocol readProtocol = ProtocolHandler.getProtocol(buffer);
         ORequest oRequest1 = readProtocol.getRequest(buffer);
         oRequest1.setSocketChannel(client);
+        oRequest1.setSelector(selector);
         String receivedMessage = oRequest1.getMessage();
         System.out.println("Received message: " + receivedMessage);
         OResponse response = PhaseHandler.execute(oRequest1);
         Protocol writeProtocol = ProtocolHandler.getProtocol(response);
         writeProtocol.sendResponse(response, client);
-        try {
-            System.out.println("Users:");
-            //Consumer consumer = ConsumerManager.getInstance().getConsumer(response.getMessage());
-            List<Consumer> consumers = ConsumerManager.getInstance().getConsumers();
-            for(Consumer c : consumers){
-                System.out.println(c.getName());
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            System.out.println("Channels:");
-            //Consumer consumer = ConsumerManager.getInstance().getConsumer(response.getMessage());
-            Map<String, List<ProducerPipe>> producerPipeMap = ProducerPipeManager.getInstance().getPipes();
-            for(String token : producerPipeMap.keySet()){
-                System.out.println(producerPipeMap.get(token));
-            }
-            Map<String, List<ConsumerPipe>> cosumerPipeMap = ConsumerPipeManagerNew.getInstance().getPipes();
-            for(String token : cosumerPipeMap.keySet()){
-                System.out.println(cosumerPipeMap.get(token));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-//        OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
-//        protocol.sendResponse(response,client);
-        client.register(selector, SelectionKey.OP_READ);
+
+        // client.register(selector, SelectionKey.OP_READ);
 
     }
 
     private void write(Selector selector, SelectionKey key) throws IOException{
         SocketChannel client = (SocketChannel) key.channel();
-        System.out.println("Server message: ");
-        Protocol protocol = new AuthenticationProtocol();
+
+        Protocol dataConveyingProtocol = new DataConveyingProtocol();
+
+        DataBlock[] dataBlocks = SocketConsumerManager.getInstance().getData(client, 10);
+
+        for (DataBlock dataBlock : dataBlocks) {
+            OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.DATA_PHASE);
+            responseBuilder.setMessage(dataBlock.getData());
+            OResponse response = responseBuilder.build();
+            dataConveyingProtocol.sendResponse(response, client);
+        }
         //OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
         //protocol.sendResponse(response,client);
 //        for (int i = 0; i < 100; i++) {

@@ -13,6 +13,8 @@ public class PhaseStrategyFactory {
             return new LogInPhaseStrategy();
         else if (phaseEnum == Constants.CHANNEL_CREATE_PHASE) {
             return new ChannelPhaseStrategy();
+        } else if (phaseEnum == Constants.DATA_PHASE) {
+            return new DataPhaseStrategy();
         }
         return new LogInPhaseStrategy();
     }

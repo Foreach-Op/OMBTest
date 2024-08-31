@@ -62,6 +62,8 @@ public class LogInPhaseStrategy implements PhaseStrategy {
     private User handleConsumer(String username, SocketChannel socketChannel) throws Exception {
         Consumer consumer = new Consumer(username, socketChannel);
         ConsumerManager.getInstance().addConsumer(consumer.getToken(), consumer);
+        System.out.println("Consumer Added");
+        System.out.println(ConsumerManager.getInstance().getConsumer(consumer.getToken()));
         return consumer;
     }
 }

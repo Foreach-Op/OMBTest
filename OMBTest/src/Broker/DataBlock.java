@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 
 public class DataBlock {
 
+    private String partitionName;
     private String data;
     private LocalDateTime dateTime;
 
-    public DataBlock(String data) {
+    public DataBlock(String data, String partitionName) {
         this.data = data;
+        this.partitionName = partitionName;
         this.dateTime = LocalDateTime.now();
     }
 

@@ -1,5 +1,6 @@
 package Network.Useful;
 
+import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
 public class ORequest {
@@ -9,6 +10,7 @@ public class ORequest {
     private String token;
     private boolean isChecksumValid;
     private SocketChannel socketChannel;
+    private Selector selector;
 
     private ORequest(RequestBuilder builder) {
         this.phase=builder.phase;
@@ -16,6 +18,8 @@ public class ORequest {
         this.message=builder.message;
         this.token=builder.token;
         this.isChecksumValid =builder.isChecksumValid;
+        this.socketChannel = builder.socketChannel;
+        this.selector = builder.selector;
     }
 
     public byte getPhase() {
@@ -61,9 +65,15 @@ public class ORequest {
     public SocketChannel getSocketChannel() {
         return socketChannel;
     }
+    public Selector getSelector() {
+        return selector;
+    }
 
     public void setSocketChannel(SocketChannel socketChannel) {
         this.socketChannel = socketChannel;
+    }
+    public void setSelector(Selector selector) {
+        this.selector = selector;
     }
 
     public static class RequestBuilder {
@@ -73,6 +83,7 @@ public class ORequest {
         private String token;
         private boolean isChecksumValid = true;
         private SocketChannel socketChannel;
+        private Selector selector;
 
         public RequestBuilder(byte phase) {
             this.phase = phase;
@@ -100,6 +111,11 @@ public class ORequest {
 
         public RequestBuilder setSocketChannel(SocketChannel socketChannel){
             this.socketChannel = socketChannel;
+            return this;
+        }
+
+        public RequestBuilder setSelector(Selector selector){
+            this.selector = selector;
             return this;
         }
 

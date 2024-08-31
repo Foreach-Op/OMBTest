@@ -17,10 +17,10 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
-public class ChannelPhaseStrategy implements PhaseStrategy{
-
+public class DataPhaseStrategy implements PhaseStrategy{
     private SocketChannel socketChannel;
     private Selector selector;
+
     @Override
     public OResponse execute(ORequest request) {
         String token = request.getToken();
@@ -31,7 +31,6 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
         responseBuilder.setUserType(userType);
         try {
             TokenProcess.verifyToken(token);
-            // verifyToken(token, userType);
         } catch (Exception e) {
             responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_TOKEN_NOT_VERIFIED).setMessage(e.getMessage());
             return responseBuilder.build();
@@ -45,18 +44,6 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
             return responseBuilder.build();
         }
         return responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS).setMessage("Success").build();
-    }
-
-    private byte determineUserType(String token){
-        char type = token.charAt(0);
-        if(type == 'P'){
-            return Constants.PRODUCER;
-        } else if (type == 'C') {
-            return Constants.CONSUMER;
-        }else {
-
-        }
-        return Constants.CONSUMER;
     }
 
     private void handleUser(byte userType, String partitionName, String token) throws Exception {
@@ -80,14 +67,6 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
         ConsumerManager.getInstance().getConsumer(token);
         Partition partition = PartitionManager.getInstance().getPartition(partitionName);
         ConsumerPipeManager.getInstance().addConsumerPipe(token, partition, ConsumingMethod.QUEUE);
-        socketChannel.register(selector, SelectionKey.OP_WRITE | SelectionKey.OP_READ);
+        socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
-
-    private void verifyToken(String token, byte userType) throws Exception {
-        if(userType == Constants.PRODUCER)
-            ProducerManager.getInstance().getProducer(token);
-        UserManager.getUser(token);
-
-    }
-
 }
