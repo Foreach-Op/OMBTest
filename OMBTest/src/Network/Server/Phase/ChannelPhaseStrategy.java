@@ -23,6 +23,7 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
     private Selector selector;
     @Override
     public OResponse execute(ORequest request) {
+        System.out.println("ChannelPhaseStrategy");
         String token = request.getToken();
         byte userType = TokenProcess.determineUserType(token);
         socketChannel = request.getSocketChannel();

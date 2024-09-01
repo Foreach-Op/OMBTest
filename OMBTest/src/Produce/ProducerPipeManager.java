@@ -19,7 +19,7 @@ public class ProducerPipeManager {
         return producerPipeManager;
     }
 
-    public synchronized void addProducerPipe(String token, Partition partition){
+    public void addProducerPipe(String token, Partition partition){
         ProducerPipe producerPipe = new ProducerPipe(partition);
         if(!map.containsKey(token)){
             map.put(token, new ArrayList<>());
@@ -27,6 +27,14 @@ public class ProducerPipeManager {
         List<ProducerPipe> producerPipes = map.get(token);
         producerPipes.add(producerPipe);
         map.put(token, producerPipes);
+    }
+
+    public ProducerPipe getPipe(String token, String partitionName) throws Exception {
+        if(!map.containsKey(token))
+            throw new Exception("No user found");
+
+        return map.get(token).stream().filter(s->s.getPartition().getName().equals(partitionName))
+                .toList().getFirst();
     }
 
     public Map<String, List<ProducerPipe>> getPipes(){

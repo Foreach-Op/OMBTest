@@ -1,12 +1,7 @@
 package Consume;
 
 import Broker.DataBlock;
-import Network.Server.Protocol.DataConveyingProtocol;
-import Network.Useful.Constants;
-import Network.Useful.OResponse;
 
-import java.io.IOException;
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -15,9 +10,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConsumerThread extends Thread{
 
     private final String token;
-    private final Lock lock = new ReentrantLock();
     private final List<ConsumerPipe> channels = new ArrayList<>();
-    private boolean isExited = false;
+    private volatile boolean isRunning = true;
 
     public ConsumerThread(String token) {
         this.token = token;
@@ -27,32 +21,21 @@ public class ConsumerThread extends Thread{
         synchronized (channels){
             channels.add(consumerPipe);
         }
-//        try{
-//            lock.lock();
-//        }finally {
-//            lock.unlock();
-//        }
     }
 
     public void removeConsumerPipe(ConsumerPipe consumerPipe){
         synchronized (channels){
             channels.remove(consumerPipe);
         }
-//        try{
-//            lock.lock();
-//            channels.remove(consumerPipe);
-//        }finally {
-//            lock.unlock();
-//        }
     }
 
     public void exit(){
-        isExited = true;
+        isRunning = false;
     }
 
     @Override
     public void run() {
-        while (!isExited){
+        while (isRunning){
             try {
                 List<DataBlock> dataBlocks = new ArrayList<>();
                 synchronized (channels){
@@ -69,7 +52,7 @@ public class ConsumerThread extends Thread{
                         //System.out.println(dataBlock);
                     }
                 }
-                Thread.sleep(100);
+                Thread.sleep(500);
                 ConsumerManager.getInstance().addData(token, dataBlocks);
 
             } catch (InterruptedException e) {

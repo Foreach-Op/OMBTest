@@ -16,7 +16,7 @@ public class PartitionManager {
         return partitionManager;
     }
 
-    public synchronized Partition addPartitionIfNotExists(String partitionName) throws Exception {
+    public synchronized Partition addPartitionIfNotExists(String partitionName) {
         if(partitionHashMap.containsKey(partitionName))
             return partitionHashMap.get(partitionName);
         Partition partition = new Partition(partitionName);

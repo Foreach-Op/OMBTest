@@ -51,11 +51,9 @@ public class NioServer {
                         accept(selector, key);
                     }
                     if (key.isReadable()) {
-                        System.out.println("Reading");
                         read(selector, key);
                     }
                     if (key.isWritable()) {
-                        System.out.println("Writing");
                         write(selector, key);
                     }
                 }
@@ -104,6 +102,8 @@ public class NioServer {
         String receivedMessage = oRequest1.getMessage();
         System.out.println("Received message: " + receivedMessage);
         OResponse response = PhaseHandler.execute(oRequest1);
+        if(response.getPhase() == Constants.DATA_PHASE)
+            return;
         Protocol writeProtocol = ProtocolHandler.getProtocol(response);
         writeProtocol.sendResponse(response, client);
 
@@ -117,7 +117,9 @@ public class NioServer {
         Protocol dataConveyingProtocol = new DataConveyingProtocol();
 
         DataBlock[] dataBlocks = SocketConsumerManager.getInstance().getData(client, 10);
-
+        if(dataBlocks.length==0)
+            return;
+        System.out.println("Write:"+dataBlocks.length);
         for (DataBlock dataBlock : dataBlocks) {
             OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.DATA_PHASE);
             responseBuilder.setMessage(dataBlock.getData());
@@ -130,6 +132,6 @@ public class NioServer {
 //            OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
 //            protocol.sendResponse(response,client);
 //        }
-        client.register(selector, SelectionKey.OP_READ);
+        // client.register(selector, SelectionKey.OP_READ);
     }
 }

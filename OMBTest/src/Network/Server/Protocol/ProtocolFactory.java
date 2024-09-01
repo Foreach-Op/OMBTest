@@ -12,6 +12,8 @@ public class ProtocolFactory {
             protocol = new AuthenticationProtocol();
         } else if (phase == Constants.CHANNEL_CREATE_PHASE) {
             protocol = new ChannelRequestProtocol();
+        } else if (phase == Constants.DATA_PHASE) {
+            protocol = new DataConveyingProtocol();
         }
         return protocol;
     }

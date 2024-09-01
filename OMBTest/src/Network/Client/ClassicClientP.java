@@ -28,7 +28,7 @@ public class ClassicClientP {
             while (isAuthenticated){
                 Protocol protocol = new DataConveyingProtocol();
                 ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.DATA_PHASE);
-                requestBuilder.setToken(token).setMessage("Data Block " + i);
+                requestBuilder.setToken(token).setMessage("Data Block From 3 " + i);
                 i++;
                 protocol.sendRequest(requestBuilder.build(), outputStream);
                 System.out.println(requestBuilder.build().getMessage());

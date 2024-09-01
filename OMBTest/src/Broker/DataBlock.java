@@ -33,7 +33,8 @@ public class DataBlock {
     @Override
     public String toString() {
         return "DataBlock{" +
-                "data='" + data + '\'' +
+                "partitionName='" + partitionName + '\'' +
+                ", data='" + data + '\'' +
                 ", dateTime=" + dateTime +
                 '}';
     }

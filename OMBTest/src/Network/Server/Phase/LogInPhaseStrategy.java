@@ -16,6 +16,7 @@ import java.nio.channels.SocketChannel;
 public class LogInPhaseStrategy implements PhaseStrategy {
     @Override
     public OResponse execute(ORequest request) {
+        System.out.println("LogInPhaseStrategy");
         OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.AUTHENTICATION_PHASE);
         byte userType = request.getUserType();
         String msg = request.getMessage();

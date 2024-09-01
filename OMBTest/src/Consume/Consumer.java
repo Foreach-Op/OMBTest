@@ -5,10 +5,8 @@ import Broker.DataBlock;
 import Security.User;
 
 import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Consumer extends User {
@@ -20,7 +18,8 @@ public class Consumer extends User {
         super(username, socketChannel, "C");
         SocketConsumerManager.getInstance().addSocketConsumer(socketChannel, this);
         consumerThread = new ConsumerThread(token);
-        consumerThread.start();
+        startThread();
+        // consumerThread.interrupt();
     }
 
     public void addDataBlocksToQueue(List<DataBlock> dataBlocks){
@@ -44,7 +43,10 @@ public class Consumer extends User {
         consumerThread.removeConsumerPipe(consumerPipe);
     }
 
-    public void terminate(){
+    public void startThread(){
+        consumerThread.start();
+    }
+    public void terminateThread(){
         consumerThread.exit();
     }
 

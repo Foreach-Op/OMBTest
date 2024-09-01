@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ConsumerPipeManager {
     private static ConsumerPipeManager consumerPipeManager;
@@ -20,7 +21,7 @@ public class ConsumerPipeManager {
         return consumerPipeManager;
     }
 
-    public synchronized void addConsumerPipe(String token, Partition partition, ConsumingMethod consumingMethod) throws Exception {
+    public void addConsumerPipe(String token, Partition partition, ConsumingMethod consumingMethod) throws Exception {
         ConsumerPipe consumerPipe = new ConsumerPipe(partition, consumingMethod);
         Consumer consumer = ConsumerManager.getInstance().getConsumer(token);
         consumer.addConsumerPipe(consumerPipe);
@@ -32,12 +33,25 @@ public class ConsumerPipeManager {
         map.put(token, consumerPipes);
     }
 
+    public void removeConsumerPipe(String token, String partitionName) throws Exception {
+        Consumer consumer = ConsumerManager.getInstance().getConsumer(token);
+        if(!map.containsKey(token)){
+            throw new Exception("Token not found");
+        }
+        List<ConsumerPipe> consumerPipes = map.get(token);
+        ConsumerPipe removed = consumerPipes.stream()
+                .filter(s->s.getPartition().getName().equals(partitionName))
+                .toList().getFirst();
+        consumerPipes.remove(removed);
+        consumer.removeConsumerPipe(removed);
+    }
+
     public Map<String, List<ConsumerPipe>> getAllPipes(){
         return map;
     }
     public List<ConsumerPipe> getPipes(String token) throws Exception {
         if(!map.containsKey(token)){
-            throw new Exception("No User");
+            throw new Exception("No User found");
         }
         return map.get(token);
     }

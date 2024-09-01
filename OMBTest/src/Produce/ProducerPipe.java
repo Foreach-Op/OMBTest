@@ -21,6 +21,18 @@ public class ProducerPipe {
         partition.add(dataBlock);
     }
 
+    public Partition getPartition() {
+        return partition;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
     @Override
     public String toString() {
         return "ProducerPipe{" +

@@ -25,16 +25,18 @@ public class Partition {
         this.header = 0;
         this.totalAddedData = 0;
         this.partitionArr = new DataBlock[partitionLimit];
-        for (int i = 0; i < partitionArr.length; i++) {
-            partitionArr[i] = new DataBlock("DUMMY DATA " + i, name);
-        }
+//        for (int i = 0; i < partitionArr.length; i++) {
+//            partitionArr[i] = new DataBlock("DUMMY DATA " + i, name);
+//        }
     }
 
     public void add(DataBlock data){
         lock.lock();
+        System.out.println(totalAddedData);
+        System.out.println(header);
         try {
             partitionArr[header++] = data;
-            if(partitionLimit > header)
+            if(header >= partitionLimit)
                 header %= partitionLimit;
             totalAddedData++;
         }finally {

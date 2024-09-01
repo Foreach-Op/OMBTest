@@ -2,8 +2,6 @@ package Consume;
 
 import Broker.DataBlock;
 
-import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +28,7 @@ public class ConsumerManager {
     public synchronized boolean removeConsumer(String token){
         if(!consumerMap.containsKey(token))
             return false;
+        consumerMap.get(token).terminateThread();
         consumerMap.remove(token);
         return true;
     }
