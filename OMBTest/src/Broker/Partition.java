@@ -32,8 +32,6 @@ public class Partition {
 
     public void add(DataBlock data){
         lock.lock();
-        System.out.println(totalAddedData);
-        System.out.println(header);
         try {
             partitionArr[header++] = data;
             if(header >= partitionLimit)

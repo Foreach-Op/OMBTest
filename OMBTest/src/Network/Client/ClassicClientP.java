@@ -1,5 +1,6 @@
 package Network.Client;
 
+import Broker.DataBlock;
 import Network.Client.Protocol.AuthenticationProtocol;
 import Network.Client.Protocol.ChannelRequestProtocol;
 import Network.Client.Protocol.DataConveyingProtocol;
@@ -10,36 +11,34 @@ import Network.Useful.OResponse;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClassicClientP {
     public final String username = "admin";
     public final String password = "admin";
+    public final String partitionName = "channel1";
+
     public String token = "";
     public void start(int port){
         try (Socket socket = new Socket("localhost", port);
              Scanner scanner = new Scanner(System.in);
              OutputStream outputStream = socket.getOutputStream();
              InputStream inputStream = socket.getInputStream()) {
-            boolean isAuthenticated = false;
-            isAuthenticated = authenticate(outputStream, inputStream);
-            connectToPartition(outputStream, inputStream);
+            boolean isAuthenticated = authenticate(outputStream, inputStream);
+            connectToPartition(outputStream, inputStream, partitionName);
             int i = 0;
             while (isAuthenticated){
                 Protocol protocol = new DataConveyingProtocol();
+                String message = "Data Block From 1-" + i;
+                DataBlock dataBlock = new DataBlock(message, partitionName);
                 ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.DATA_PHASE);
-                requestBuilder.setToken(token).setMessage("Data Block From 3 " + i);
-                i++;
+                requestBuilder.setToken(token);
+                requestBuilder.setDataBlock(dataBlock);
                 protocol.sendRequest(requestBuilder.build(), outputStream);
-                System.out.println(requestBuilder.build().getMessage());
+                System.out.println(dataBlock);
                 Thread.sleep(1000);
-                // Send message to server
-
-                // Receive response from server
-//                System.out.println("From server: "+response.getMessage().trim());
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//                String response = reader.readLine();
-//                System.out.println("Received from server: " + response);
+                i++;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,11 +71,11 @@ public class ClassicClientP {
 
     }
 
-    public void connectToPartition(OutputStream output, InputStream inputStream){
+    public void connectToPartition(OutputStream output, InputStream inputStream, String partitionName){
         Protocol protocol = new ChannelRequestProtocol();
         try {
             protocol.sendRequest(new ORequest.RequestBuilder(Constants.CHANNEL_CREATE_PHASE)
-                            .setMessage("channel1")
+                            .setMessage(partitionName)
                             .setToken(token).build(),
                     output);
         } catch (IOException e) {

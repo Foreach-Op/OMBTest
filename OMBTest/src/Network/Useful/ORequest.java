@@ -1,5 +1,7 @@
 package Network.Useful;
 
+import Broker.DataBlock;
+
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
@@ -9,6 +11,7 @@ public class ORequest {
     private String message;
     private String token;
     private boolean isChecksumValid;
+    private DataBlock dataBlock;
     private SocketChannel socketChannel;
     private Selector selector;
 
@@ -18,6 +21,7 @@ public class ORequest {
         this.message=builder.message;
         this.token=builder.token;
         this.isChecksumValid =builder.isChecksumValid;
+        this.dataBlock = builder.dataBlock;
         this.socketChannel = builder.socketChannel;
         this.selector = builder.selector;
     }
@@ -68,7 +72,6 @@ public class ORequest {
     public Selector getSelector() {
         return selector;
     }
-
     public void setSocketChannel(SocketChannel socketChannel) {
         this.socketChannel = socketChannel;
     }
@@ -76,11 +79,20 @@ public class ORequest {
         this.selector = selector;
     }
 
+    public DataBlock getDataBlock() {
+        return dataBlock;
+    }
+
+    public void setDataBlock(DataBlock dataBlock) {
+        this.dataBlock = dataBlock;
+    }
+
     public static class RequestBuilder {
         private final byte phase;
         private byte userType;
         private String message = "";
         private String token;
+        private DataBlock dataBlock;
         private boolean isChecksumValid = true;
         private SocketChannel socketChannel;
         private Selector selector;
@@ -116,6 +128,11 @@ public class ORequest {
 
         public RequestBuilder setSelector(Selector selector){
             this.selector = selector;
+            return this;
+        }
+
+        public RequestBuilder setDataBlock(DataBlock dataBlock){
+            this.dataBlock = dataBlock;
             return this;
         }
 

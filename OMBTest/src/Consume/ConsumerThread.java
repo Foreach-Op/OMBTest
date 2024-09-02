@@ -43,7 +43,6 @@ public class ConsumerThread extends Thread{
                         //lock.lock();
                         DataBlock dataBlock = consumerPipe.consume();
                         if(dataBlock == null){
-                            System.out.println("Not Consumed");
                             continue;
                         }
                         dataBlocks.add(dataBlock);

@@ -1,5 +1,6 @@
 package Network.Client;
 
+import Broker.DataBlock;
 import Network.Client.Protocol.AuthenticationProtocol;
 import Network.Client.Protocol.ChannelRequestProtocol;
 import Network.Client.Protocol.DataConveyingProtocol;
@@ -29,7 +30,8 @@ public class ClassicClientC {
             while (isAuthenticated){
                 Protocol protocol = new DataConveyingProtocol();
                 OResponse response = protocol.getResponse(inputStream);
-                System.out.println(response.getMessage());
+                DataBlock dataBlock = response.getDataBlock();
+                System.out.println(dataBlock);
                 // Send message to server
 
                 // Receive response from server
@@ -92,5 +94,9 @@ public class ClassicClientC {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void startListening(){
+
     }
 }

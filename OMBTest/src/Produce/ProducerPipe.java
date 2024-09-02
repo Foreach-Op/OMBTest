@@ -16,8 +16,8 @@ public class ProducerPipe {
         this.partition = partition;
     }
 
-    public void produce(String message){
-        DataBlock dataBlock = new DataBlock(message, partition.getName());
+    public void produce(DataBlock dataBlock){
+        //DataBlock dataBlock = new DataBlock(message, partition.getName());
         partition.add(dataBlock);
     }
 

@@ -1,11 +1,14 @@
 package Network.Useful;
 
+import Broker.DataBlock;
+
 public class OResponse {
     private byte phase;
     private byte userType;
     private byte responseStatus;
     private String message;
     private String token;
+    private DataBlock dataBlock;
     private boolean isChecksumValid;
 
     private OResponse(ResponseBuilder builder) {
@@ -15,6 +18,7 @@ public class OResponse {
         this.message = builder.message;
         this.token = builder.token;
         this.isChecksumValid = builder.isChecksumValid;
+        this.dataBlock = builder.dataBlock;
     }
 
     public byte getPhase() {
@@ -61,13 +65,21 @@ public class OResponse {
         this.isChecksumValid = checksumValid;
     }
 
+    public DataBlock getDataBlock() {
+        return dataBlock;
+    }
+
+    public void setDataBlock(DataBlock dataBlock) {
+        this.dataBlock = dataBlock;
+    }
+
     public static class ResponseBuilder {
         private final byte phase;
         private byte userType;
         private byte responseStatus;
         private String message;
         private String token;
-
+        private DataBlock dataBlock;
         private boolean isChecksumValid = true;
 
 
@@ -97,6 +109,11 @@ public class OResponse {
 
         public ResponseBuilder setChecksumValid(boolean isChecksumValid){
             this.isChecksumValid = isChecksumValid;
+            return this;
+        }
+
+        public ResponseBuilder setDataBlock(DataBlock dataBlock){
+            this.dataBlock = dataBlock;
             return this;
         }
 

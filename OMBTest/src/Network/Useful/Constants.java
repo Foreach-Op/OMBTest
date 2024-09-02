@@ -32,4 +32,8 @@ public class Constants {
     public static final byte ROLE_USER = 0x00;
     public static final byte ROLE_ADMIN = 0x01;
 
+    public static final byte INFO_DATA_TYPE = 0x00;
+    public static final byte EVENT_DATA_TYPE = 0x01;
+    public static final byte ERROR_DATA_TYPE = 0x03;
+
 }

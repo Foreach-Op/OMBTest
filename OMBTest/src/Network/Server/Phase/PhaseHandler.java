@@ -12,7 +12,6 @@ public class PhaseHandler {
 
     public static OResponse execute(ORequest request) throws IOException {
         if(!request.isChecksumValid()){
-            System.out.println("Not Valid");
         }
         PhaseStrategy phaseStrategy = PhaseStrategyFactory.getPhaseStrategy(request);
         Phase phase = new Phase(phaseStrategy);

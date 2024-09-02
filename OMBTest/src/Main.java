@@ -1,3 +1,4 @@
+import Broker.DataBlock;
 import Network.Client.ClassicClientC;
 import Network.Client.ClassicClientP;
 import Network.Client.NioClient;
@@ -7,6 +8,7 @@ import Network.Useful.ORequest;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.zip.CRC32;
 
@@ -20,6 +22,21 @@ public class Main {
     public static void main(String[] args) {
         //startProducing();
         //startConsuming();
+        StringBuilder sb = new StringBuilder();
+        String partitionName = "channelchannel";
+        String data = "testdata";
+        sb.append("%d#".formatted(partitionName.length()));
+        sb.append(partitionName);
+        sb.append(data);
+        data = sb.toString();
+        int ind = data.indexOf("#");
+        String str1 = data.substring(0,ind);
+        int lng =Integer.parseInt(str1);
+        String str2 = data.substring(ind+1, ind+1+lng);
+        String str3 = data.substring(ind+1+lng);
+        System.out.println(lng);
+        System.out.println(str2);
+        System.out.println(str3);
 
         int portNumber = 12345;
 

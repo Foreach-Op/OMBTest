@@ -1,22 +1,17 @@
 package Network.Server.Phase;
 
-import Broker.Partition;
-import Broker.PartitionManager;
-import Consume.ConsumerManager;
-import Consume.ConsumerPipeManager;
-import Consume.Consumption.ConsumingMethod;
+import Broker.DataBlock;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
-import Produce.ProducerManager;
 import Produce.ProducerPipe;
 import Produce.ProducerPipeManager;
 import Security.TokenProcess;
-import Security.UserManager;
 
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.time.LocalDateTime;
 
 public class DataPhaseStrategy implements PhaseStrategy{
     private SocketChannel socketChannel;
@@ -38,10 +33,10 @@ public class DataPhaseStrategy implements PhaseStrategy{
             responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_TOKEN_NOT_VERIFIED).setMessage(e.getMessage());
             return responseBuilder.build();
         }
-        String message = request.getMessage();
-        String[] messageArr = message.split(" ");
+        DataBlock dataBlock = request.getDataBlock();
+
         try {
-            handleUser(userType, message, token);
+            handleUser(userType, token, dataBlock);
         } catch (Exception e) {
             System.err.println(e);
             responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_ERROR).setMessage(e.getMessage());
@@ -50,24 +45,24 @@ public class DataPhaseStrategy implements PhaseStrategy{
         return responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS).setMessage("Success").build();
     }
 
-    private void handleUser(byte userType, String partitionName, String token) throws Exception {
+    private void handleUser(byte userType, String token, DataBlock dataBlock) throws Exception {
         if(userType == Constants.PRODUCER){
-            handleProducer(partitionName, token);
+            handleProducer(dataBlock, token);
             System.out.println("Producer Data");
         } else if (userType == Constants.CONSUMER) {
-            handleConsumer(partitionName, token);
+            handleConsumer(dataBlock, token);
             System.out.println("Consumer Data");
         }
     }
 
-    public void handleProducer(String partitionName, String token) throws Exception {
-        ProducerPipe pipe = ProducerPipeManager.getInstance().getPipe(token, "channel1");
-        pipe.produce(partitionName);
-        System.out.println("Produced");
+    public void handleProducer(DataBlock dataBlock, String token) throws Exception {
+        ProducerPipe pipe = ProducerPipeManager.getInstance().getPipe(token, dataBlock.getPartitionName());
+        pipe.produce(dataBlock);
+        System.out.println("Produced:"+dataBlock.toString());
         socketChannel.register(selector, SelectionKey.OP_READ);
     }
 
-    public void handleConsumer(String partitionName, String token) throws Exception {
+    public void handleConsumer(DataBlock dataBlock, String token) throws Exception {
 
     }
 }

@@ -9,8 +9,6 @@ import Network.Server.Protocol.ProtocolHandler;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
-import Produce.ProducerPipe;
-import Produce.ProducerPipeManager;
 import Security.User;
 
 import java.io.IOException;
@@ -22,8 +20,6 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 public class NioServer {
     private HashSet<SocketChannel> clients = new HashSet<>();
@@ -44,7 +40,6 @@ public class NioServer {
 
                 for(SelectionKey key : selector.selectedKeys()){
                     if (!key.isValid()) {
-                        System.out.println("Not Valid");
                         continue;
                     }
                     if (key.isAcceptable()){
@@ -119,10 +114,10 @@ public class NioServer {
         DataBlock[] dataBlocks = SocketConsumerManager.getInstance().getData(client, 10);
         if(dataBlocks.length==0)
             return;
-        System.out.println("Write:"+dataBlocks.length);
+
         for (DataBlock dataBlock : dataBlocks) {
             OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.DATA_PHASE);
-            responseBuilder.setMessage(dataBlock.getData());
+            responseBuilder.setDataBlock(dataBlock);
             OResponse response = responseBuilder.build();
             dataConveyingProtocol.sendResponse(response, client);
         }

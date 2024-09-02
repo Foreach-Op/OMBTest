@@ -48,18 +48,6 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
         return responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS).setMessage("Success").build();
     }
 
-    private byte determineUserType(String token){
-        char type = token.charAt(0);
-        if(type == 'P'){
-            return Constants.PRODUCER;
-        } else if (type == 'C') {
-            return Constants.CONSUMER;
-        }else {
-
-        }
-        return Constants.CONSUMER;
-    }
-
     private void handleUser(byte userType, String partitionName, String token) throws Exception {
         if(userType == Constants.PRODUCER){
             handleProducer(partitionName, token);
