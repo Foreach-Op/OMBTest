@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3fbe097-a942-4192-bf90-f8966150dabf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Broker/DataBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker/DataBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/ConsumerPipe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/ConsumerPipeManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/QueueBasedConsumptionStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/Consumption/QueueBasedConsumptionStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Network/Client/ClassicClientC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Client/ClassicClientC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Network/Client/ClassicClientP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Client/ClassicClientP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Network/Client/Protocol/DataConveyingProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Client/Protocol/DataConveyingProtocol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Network/Server/Phase/ChannelPhaseStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Phase/ChannelPhaseStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Network/Server/Protocol/DataConveyingProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Protocol/DataConveyingProtocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +102,7 @@
       <workItem from="1723842526885" duration="7642000" />
       <workItem from="1723888450123" duration="119552000" />
       <workItem from="1725103658019" duration="23407000" />
-      <workItem from="1725196150188" duration="19123000" />
+      <workItem from="1725196150188" duration="22581000" />
     </task>
     <servers />
   </component>

@@ -23,21 +23,14 @@ public class Main {
         //startProducing();
         //startConsuming();
         StringBuilder sb = new StringBuilder();
+        List<String> partitionNames = new ArrayList<>();
+        partitionNames.add("channelchannel");
+        partitionNames.add("oguzogzu");
         String partitionName = "channelchannel";
         String data = "testdata";
-        sb.append("%d#".formatted(partitionName.length()));
-        sb.append(partitionName);
-        sb.append(data);
-        data = sb.toString();
-        int ind = data.indexOf("#");
-        String str1 = data.substring(0,ind);
-        int lng =Integer.parseInt(str1);
-        String str2 = data.substring(ind+1, ind+1+lng);
-        String str3 = data.substring(ind+1+lng);
-        System.out.println(lng);
-        System.out.println(str2);
-        System.out.println(str3);
-
+        String msg = constructData(partitionNames, data);
+        System.out.println(msg);
+        extractData(msg);
         int portNumber = 12345;
 
         try(Scanner scanner = new Scanner(System.in)){
@@ -67,6 +60,40 @@ public class Main {
 //        String[] decoded = decode(encoded);
 //        for(String d: decoded)
 //            System.out.println(d);
+    }
+
+    public static String constructData(List<String> partitionNames, String message){
+        StringBuilder sb = new StringBuilder();
+
+        for (String partitionName: partitionNames){
+            sb.append("%d#".formatted(partitionName.length()));
+            sb.append(partitionName);
+        }
+        sb.append(" ");
+        sb.append(message);
+        sb.append("\n");
+        return sb.toString();
+    }
+
+    public static String[] extractData(String data){
+        int firstSpaceInd = data.indexOf(" ");
+        String firstSub = data.substring(0, firstSpaceInd);
+        List<String> partitions = new ArrayList<>();
+        int lastInd = 0;
+        while (true){
+            int ind = firstSub.indexOf("#", lastInd+1);
+            if(ind == -1)
+                break;
+            String str1 = firstSub.substring(0, ind);
+            int lng =Integer.parseInt(str1);
+            String partitionName = firstSub.substring(ind+1, ind+1+lng);
+            firstSub = firstSub.substring(ind+1+lng);
+            partitions.add(partitionName);
+        }
+        String message = data.substring(firstSpaceInd+1);
+        partitions.forEach(System.out::println);
+        System.out.println(message);
+        return new String[]{"partitionName", message};
     }
 
     public static String encode(String[] data){
