@@ -9,7 +9,7 @@ public class DataBlock {
     private String partitionName;
     private String message;
     private byte dataType;
-    private LocalDateTime dateTime;
+    private LocalDateTime createdDateTime;
     private final LocalDateTime addedDateTime;
 
     public DataBlock(String message, String partitionName) {
@@ -20,7 +20,7 @@ public class DataBlock {
         this.message = message;
         this.partitionName = partitionName;
         this.dataType = dataType;
-        this.dateTime = LocalDateTime.now();
+        this.createdDateTime = LocalDateTime.now();
         this.addedDateTime = LocalDateTime.now();
     }
 
@@ -48,14 +48,14 @@ public class DataBlock {
         this.dataType = dataType;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
     public LocalDateTime getAddedDateTime() {
         return addedDateTime;
     }
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 
 
@@ -65,7 +65,7 @@ public class DataBlock {
                 "partitionName='" + partitionName + '\'' +
                 ", data='" + message + '\'' +
                 ", dataType='" + dataType + '\'' +
-                ", dateTime=" + dateTime +
+                ", createdDateTime=" + createdDateTime +
                 '}';
     }
 }

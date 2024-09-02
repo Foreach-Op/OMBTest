@@ -29,7 +29,7 @@ public class DataConveyingProtocol extends Protocol{
         // Epoch->8 byte
         // Checksum->8 byte
         DataBlock dataBlock = request.getDataBlock();
-        long epoch = dataBlock.getDateTime().toEpochSecond(ZoneOffset.UTC);
+        long epoch = dataBlock.getCreatedDateTime().toEpochSecond(ZoneOffset.UTC);
         String constructedMessage = constructData(dataBlock.getPartitionName(), dataBlock.getMessage());
         int messageLength = constructedMessage.length();
         byte[] payload = constructedMessage.getBytes();
@@ -92,7 +92,7 @@ public class DataConveyingProtocol extends Protocol{
         String partitionName = extractedMessage[0].trim();
         String message = extractedMessage[1].trim();
         DataBlock dataBlock = new DataBlock(message, partitionName);
-        dataBlock.setDateTime(dateTime);
+        dataBlock.setCreatedDateTime(dateTime);
         dataBlock.setDataType(dataType);
         OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.DATA_PHASE);
         responseBuilder.setDataBlock(dataBlock);

@@ -3,6 +3,7 @@ package Consume;
 import Broker.Partition;
 import Consume.Consumption.ConsumingMethod;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ConsumerPipeManager {
     }
 
     public void addConsumerPipe(String token, Partition partition, ConsumingMethod consumingMethod) throws Exception {
-        ConsumerPipe consumerPipe = new ConsumerPipe(partition, consumingMethod);
+        ConsumerPipe consumerPipe = new ConsumerPipe(partition, consumingMethod, LocalDateTime.now());
         Consumer consumer = ConsumerManager.getInstance().getConsumer(token);
         consumer.addConsumerPipe(consumerPipe);
         if(!map.containsKey(token)){

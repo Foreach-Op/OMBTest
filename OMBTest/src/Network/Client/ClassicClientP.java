@@ -11,13 +11,14 @@ import Network.Useful.OResponse;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ClassicClientP {
     public final String username = "admin";
     public final String password = "admin";
-    public final String partitionName = "channel1";
+    public List<String> channelList = new ArrayList<>();
 
     public String token = "";
     public void start(int port){
@@ -25,18 +26,15 @@ public class ClassicClientP {
              Scanner scanner = new Scanner(System.in);
              OutputStream outputStream = socket.getOutputStream();
              InputStream inputStream = socket.getInputStream()) {
-            boolean isAuthenticated = authenticate(outputStream, inputStream);
-            connectToPartition(outputStream, inputStream, partitionName);
+            List<String> channels = new ArrayList<>();
+            channels.add("channel1");
+            channels.add("channel2");
+            boolean isAuthenticated = authenticate(inputStream, outputStream);
+            connectToPartition(inputStream, outputStream, channels);
             int i = 0;
             while (isAuthenticated){
-                Protocol protocol = new DataConveyingProtocol();
                 String message = "Data Block From 1-" + i;
-                DataBlock dataBlock = new DataBlock(message, partitionName);
-                ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.DATA_PHASE);
-                requestBuilder.setToken(token);
-                requestBuilder.setDataBlock(dataBlock);
-                protocol.sendRequest(requestBuilder.build(), outputStream);
-                System.out.println(dataBlock);
+                startSending(inputStream, outputStream, message, channelList);
                 Thread.sleep(1000);
                 i++;
             }
@@ -45,7 +43,7 @@ public class ClassicClientP {
         }
     }
 
-    public boolean authenticate(OutputStream output, InputStream inputStream){
+    public boolean authenticate(InputStream inputStream, OutputStream output){
         Protocol protocol = new AuthenticationProtocol();
         String message = username + " " + password;
         try {
@@ -71,28 +69,48 @@ public class ClassicClientP {
 
     }
 
-    public void connectToPartition(OutputStream output, InputStream inputStream, String partitionName){
+    public void connectToPartition(InputStream inputStream, OutputStream output, List<String> channels){
         Protocol protocol = new ChannelRequestProtocol();
-        try {
-            protocol.sendRequest(new ORequest.RequestBuilder(Constants.CHANNEL_CREATE_PHASE)
-                            .setMessage(partitionName)
-                            .setToken(token).build(),
-                    output);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            OResponse response = protocol.getResponse(inputStream);
-            if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
-                String msg = response.getMessage();
-                System.out.println("Channel created: " + msg);
-            }else {
-                System.err.println(response.getMessage());
-                throw new RuntimeException(response.getMessage());
+        for (String channel:channels){
+            try {
+                protocol.sendRequest(new ORequest.RequestBuilder(Constants.CHANNEL_CREATE_PHASE)
+                                .setMessage(channel)
+                                .setToken(token).build(),
+                        output);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+            try {
+                OResponse response = protocol.getResponse(inputStream);
+                if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
+                    String msg = response.getMessage().trim();
+                    System.out.println("Channel created: " + msg);
+                    channelList.add(msg);
+                }else {
+                    System.err.println(response.getMessage());
+                    throw new RuntimeException(response.getMessage());
+                }
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void startSending(InputStream inputStream, OutputStream outputStream, String message, List<String> channels){
+        Protocol protocol = new DataConveyingProtocol();
+
+        for(String channel: channels){
+            try {
+                DataBlock dataBlock = new DataBlock(message, channel);
+                ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.DATA_PHASE);
+                requestBuilder.setToken(token);
+                requestBuilder.setDataBlock(dataBlock);
+                protocol.sendRequest(requestBuilder.build(), outputStream);
+                System.out.println(dataBlock);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

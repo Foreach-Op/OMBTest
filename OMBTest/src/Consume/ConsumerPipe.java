@@ -5,25 +5,26 @@ import Broker.Partition;
 import Consume.Consumption.ConsumeHandler;
 import Consume.Consumption.ConsumingMethod;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ConsumerPipe {
     private final Partition partition;
-    private ConsumeHandler consumeHandler;
+    private final ConsumeHandler consumeHandler = new ConsumeHandler();
     private ConsumingMethod consumingMethod;
-    private LocalDateTime localDateTime;
+    private LocalDateTime latestDataTime;
     private int header;
     private int totalPipedData;
 
     public ConsumerPipe(Partition partition, ConsumingMethod consumingMethod){
+        this(partition, consumingMethod, null);
+    }
+
+    public ConsumerPipe(Partition partition, ConsumingMethod consumingMethod, LocalDateTime latestDataTime){
         this.partition = partition;
         this.consumingMethod = consumingMethod;
-        this.consumeHandler = new ConsumeHandler();
         this.header = 0;
         this.totalPipedData = 0;
+        this.latestDataTime = latestDataTime;
     }
 
     public DataBlock consume(){
@@ -45,12 +46,12 @@ public class ConsumerPipe {
         this.consumingMethod = consumingMethod;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getLatestDataTime() {
+        return latestDataTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setLatestDataTime(LocalDateTime latestDataTime) {
+        this.latestDataTime = latestDataTime;
     }
 
     public int getHeader() {

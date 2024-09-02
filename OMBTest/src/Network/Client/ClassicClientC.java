@@ -13,14 +13,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ClassicClientC {
     public final String username = "admin";
     public final String password = "admin";
     public String token = "";
+    public Map<String, List<DataBlock>> channelDataBlocks = new HashMap<>();
     public void start(int port){
         try (Socket socket = new Socket("localhost", port);
              Scanner scanner = new Scanner(System.in);
@@ -29,7 +28,7 @@ public class ClassicClientC {
             boolean isAuthenticated = false;
             List<String> channels = new ArrayList<>();
             channels.add("channel1");
-            channels.add("channel2");
+            //channels.add("channel2");
             isAuthenticated = authenticate(inputStream, outputStream);
             connectToPartition(inputStream, outputStream, channels);
             startListening(inputStream, outputStream);
@@ -37,7 +36,9 @@ public class ClassicClientC {
                 Protocol protocol = new DataConveyingProtocol();
                 OResponse response = protocol.getResponse(inputStream);
                 DataBlock dataBlock = response.getDataBlock();
-                System.out.println(dataBlock);
+                classifyDataBlock(dataBlock);
+                // System.out.println(dataBlock);
+                System.out.println(channelDataBlocks.get(dataBlock.getPartitionName()).getLast());
                 // Send message to server
 
                 // Receive response from server
@@ -91,8 +92,9 @@ public class ClassicClientC {
             try {
                 OResponse response = protocol.getResponse(inputStream);
                 if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
-                    String msg = response.getMessage();
+                    String msg = response.getMessage().trim();
                     System.out.println("Channel created: " + msg);
+                    channelDataBlocks.put(msg, new ArrayList<>());
                 }else {
                     System.err.println(response.getMessage());
                 }
@@ -114,19 +116,10 @@ public class ClassicClientC {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        try {
-//            OResponse response = protocol.getResponse(inputStream);
-//            DataBlock dataBlock = response.getDataBlock();
-//            if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
-//                String msg = dataBlock.getMessage();
-//                System.out.println(msg);
-//            }else {
-//                System.err.println(response.getMessage());
-//                throw new RuntimeException(response.getMessage());
-//            }
-//
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
+    }
+
+    public void classifyDataBlock(DataBlock dataBlock){
+        List<DataBlock> dataBlocks = channelDataBlocks.get(dataBlock.getPartitionName());
+        dataBlocks.add(dataBlock);
     }
 }

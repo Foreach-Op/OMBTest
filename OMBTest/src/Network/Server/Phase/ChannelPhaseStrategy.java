@@ -37,15 +37,14 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
             responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_TOKEN_NOT_VERIFIED).setMessage(e.getMessage());
             return responseBuilder.build();
         }
-        String message = request.getMessage();
-        String[] messageArr = message.split(" ");
+        String partitionName = request.getMessage();
         try {
-            handleUser(userType, message, token);
+            handleUser(userType, partitionName, token);
         } catch (Exception e) {
             responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_ERROR).setMessage(e.getMessage());
             return responseBuilder.build();
         }
-        return responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS).setMessage("Success").build();
+        return responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS).setMessage(partitionName).build();
     }
 
     private void handleUser(byte userType, String partitionName, String token) throws Exception {

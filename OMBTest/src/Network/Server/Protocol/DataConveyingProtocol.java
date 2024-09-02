@@ -35,7 +35,7 @@ public class DataConveyingProtocol extends Protocol{
         int dataLength = data.length();
         byte[] payload = data.getBytes();
         long checksum = HashProducer.calculateHash(payload);
-        long epoch = dataBlock.getDateTime().toEpochSecond(ZoneOffset.UTC);
+        long epoch = dataBlock.getCreatedDateTime().toEpochSecond(ZoneOffset.UTC);
 
         ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 4 + dataLength + 8 + 8);
 
@@ -84,7 +84,7 @@ public class DataConveyingProtocol extends Protocol{
         String message = strings[1];
         LocalDateTime dateTime = LocalDateTime.ofEpochSecond(epoch, 0, ZoneOffset.UTC);
         DataBlock dataBlock = new DataBlock(message, partitionName);
-        dataBlock.setDateTime(dateTime);
+        dataBlock.setCreatedDateTime(dateTime);
         dataBlock.setDataType(dataType);
         ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.DATA_PHASE);
         requestBuilder.setDataBlock(dataBlock).setToken(tkn).setChecksumValid(isCompatible);
