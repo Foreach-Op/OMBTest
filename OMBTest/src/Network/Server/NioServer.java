@@ -23,8 +23,6 @@ import java.util.HashSet;
 
 public class NioServer {
     private HashSet<SocketChannel> clients = new HashSet<>();
-    private HashMap<User, SocketChannel> userSocketChannelMap = new HashMap<>();
-    private HashMap<String, User> userHashMap = new HashMap<>();
     private ByteBuffer buffer = ByteBuffer.allocate(1024);
 
     public void start(final int portNumber) throws IOException{
@@ -112,8 +110,6 @@ public class NioServer {
         Protocol dataConveyingProtocol = new DataConveyingProtocol();
 
         DataBlock[] dataBlocks = SocketConsumerManager.getInstance().getData(client, 10);
-        if(dataBlocks.length==0)
-            return;
 
         for (DataBlock dataBlock : dataBlocks) {
             OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.DATA_PHASE);
@@ -121,12 +117,7 @@ public class NioServer {
             OResponse response = responseBuilder.build();
             dataConveyingProtocol.sendResponse(response, client);
         }
-        //OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
-        //protocol.sendResponse(response,client);
-//        for (int i = 0; i < 100; i++) {
-//            OResponse response=new OResponse.ResponseBuilder(Constants.CMD_PHASE, Constants.AUTH_FAIL, Constants.AUTH_SUCCESS).setMessage("token").build();
-//            protocol.sendResponse(response,client);
-//        }
+
         // client.register(selector, SelectionKey.OP_READ);
     }
 }

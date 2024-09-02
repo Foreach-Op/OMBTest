@@ -1,6 +1,8 @@
 package Network.Server.Phase;
 
 import Broker.DataBlock;
+import Consume.Consumer;
+import Consume.ConsumerManager;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
@@ -63,6 +65,9 @@ public class DataPhaseStrategy implements PhaseStrategy{
     }
 
     public void handleConsumer(DataBlock dataBlock, String token) throws Exception {
-
+        System.out.println("Consumer Listening");
+        Consumer consumer = ConsumerManager.getInstance().getConsumer(token);
+        consumer.startThread();
+        socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 }

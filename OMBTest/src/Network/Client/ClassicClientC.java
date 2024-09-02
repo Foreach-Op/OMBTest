@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClassicClientC {
@@ -25,8 +27,12 @@ public class ClassicClientC {
              OutputStream outputStream = socket.getOutputStream();
              InputStream inputStream = socket.getInputStream()) {
             boolean isAuthenticated = false;
-            isAuthenticated = authenticate(outputStream, inputStream);
-            connectToPartition(outputStream, inputStream);
+            List<String> channels = new ArrayList<>();
+            channels.add("channel1");
+            channels.add("channel2");
+            isAuthenticated = authenticate(inputStream, outputStream);
+            connectToPartition(inputStream, outputStream, channels);
+            startListening(inputStream, outputStream);
             while (isAuthenticated){
                 Protocol protocol = new DataConveyingProtocol();
                 OResponse response = protocol.getResponse(inputStream);
@@ -45,12 +51,12 @@ public class ClassicClientC {
         }
     }
 
-    public boolean authenticate(OutputStream output, InputStream inputStream){
+    public boolean authenticate(InputStream inputStream, OutputStream outputStream){
         Protocol protocol = new AuthenticationProtocol();
         String message = username + " " + password;
         try {
             protocol.sendRequest(new ORequest.RequestBuilder(Constants.AUTHENTICATION_PHASE).setUserType(Constants.CONSUMER).setMessage(message).build(),
-                    output);
+                    outputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -71,32 +77,56 @@ public class ClassicClientC {
 
     }
 
-    public void connectToPartition(OutputStream output, InputStream inputStream){
+    public void connectToPartition(InputStream inputStream, OutputStream outputStream, List<String> channels){
         Protocol protocol = new ChannelRequestProtocol();
-        try {
-            protocol.sendRequest(new ORequest.RequestBuilder(Constants.CHANNEL_CREATE_PHASE)
-                            .setMessage("channel1")
-                            .setToken(token).build(),
-                    output);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            OResponse response = protocol.getResponse(inputStream);
-            if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
-                String msg = response.getMessage();
-                System.out.println("Channel created: " + msg);
-            }else {
-                System.err.println(response.getMessage());
-                throw new RuntimeException(response.getMessage());
+        for (String channel: channels){
+            try {
+                protocol.sendRequest(new ORequest.RequestBuilder(Constants.CHANNEL_CREATE_PHASE)
+                                .setMessage(channel)
+                                .setToken(token).build(),
+                        outputStream);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+            try {
+                OResponse response = protocol.getResponse(inputStream);
+                if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
+                    String msg = response.getMessage();
+                    System.out.println("Channel created: " + msg);
+                }else {
+                    System.err.println(response.getMessage());
+                }
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void startListening(){
-
+    public void startListening(InputStream inputStream, OutputStream outputStream){
+        Protocol protocol = new DataConveyingProtocol();
+        try {
+            DataBlock dataBlock = new DataBlock("Start Listening", "dummy");
+            ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.DATA_PHASE);
+            requestBuilder.setToken(token);
+            requestBuilder.setDataBlock(dataBlock);
+            protocol.sendRequest(requestBuilder.build(), outputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//        try {
+//            OResponse response = protocol.getResponse(inputStream);
+//            DataBlock dataBlock = response.getDataBlock();
+//            if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
+//                String msg = dataBlock.getMessage();
+//                System.out.println(msg);
+//            }else {
+//                System.err.println(response.getMessage());
+//                throw new RuntimeException(response.getMessage());
+//            }
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }

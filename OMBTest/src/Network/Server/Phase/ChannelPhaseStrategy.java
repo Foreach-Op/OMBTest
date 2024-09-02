@@ -69,7 +69,7 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
         ConsumerManager.getInstance().getConsumer(token);
         Partition partition = PartitionManager.getInstance().getPartition(partitionName);
         ConsumerPipeManager.getInstance().addConsumerPipe(token, partition, ConsumingMethod.QUEUE);
-        socketChannel.register(selector, SelectionKey.OP_WRITE | SelectionKey.OP_READ);
+        // socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
     private void verifyToken(String token, byte userType) throws Exception {

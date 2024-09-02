@@ -18,7 +18,7 @@ public class Consumer extends User {
         super(username, socketChannel, "C");
         SocketConsumerManager.getInstance().addSocketConsumer(socketChannel, this);
         consumerThread = new ConsumerThread(token);
-        startThread();
+        // startThread();
         // consumerThread.interrupt();
     }
 
@@ -46,6 +46,7 @@ public class Consumer extends User {
     public void startThread(){
         consumerThread.start();
     }
+
     public void terminateThread(){
         consumerThread.exit();
     }
