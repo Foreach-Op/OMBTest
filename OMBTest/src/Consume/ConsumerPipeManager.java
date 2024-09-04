@@ -24,6 +24,7 @@ public class ConsumerPipeManager {
 
     public void addConsumerPipe(String token, Partition partition, ConsumingMethod consumingMethod) throws Exception {
         ConsumerPipe consumerPipe = new ConsumerPipe(partition, consumingMethod);
+        consumerPipe.setHeader(partition.getHeader());
         Consumer consumer = ConsumerManager.getInstance().getConsumer(token);
         consumer.addConsumerPipe(consumerPipe);
         if(!map.containsKey(token)){

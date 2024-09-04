@@ -16,7 +16,7 @@ public class Partition {
     private int totalAddedData;
 
     public Partition(String name){
-        this(name,100);
+        this(name,10);
     }
 
     public Partition(String name, int partitionLimit){
@@ -25,9 +25,6 @@ public class Partition {
         this.header = 0;
         this.totalAddedData = 0;
         this.partitionArr = new DataBlock[partitionLimit];
-//        for (int i = 0; i < partitionArr.length; i++) {
-//            partitionArr[i] = new DataBlock("DUMMY DATA " + i, name);
-//        }
     }
 
     public void add(DataBlock data){
@@ -73,6 +70,9 @@ public class Partition {
 
     public String getName(){
         return name;
+    }
+    public int getHeader(){
+        return header;
     }
 
     public void setPartitionLimit(int partitionLimit){

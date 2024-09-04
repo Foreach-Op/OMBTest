@@ -1,4 +1,4 @@
-package Security;
+package Security.Authentication;
 
 import java.util.HashMap;
 

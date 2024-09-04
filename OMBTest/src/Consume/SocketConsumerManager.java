@@ -29,19 +29,4 @@ public class SocketConsumerManager {
     public DataBlock[] getData(SocketChannel socketChannel, int amount){
         return socketChannelConsumerHashMap.get(socketChannel).removeDataBlocks(amount);
     }
-
-    public boolean isTherePipe(SocketChannel socketChannel){
-        Consumer consumer = socketChannelConsumerHashMap.get(socketChannel);
-        if(consumer == null)
-            return false;
-        boolean isEmpty = true;
-        try {
-            isEmpty = ConsumerPipeManager.getInstance().getPipes(consumer.getToken()).isEmpty();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-            //return false;
-        }
-        return isEmpty;
-    }
-
 }

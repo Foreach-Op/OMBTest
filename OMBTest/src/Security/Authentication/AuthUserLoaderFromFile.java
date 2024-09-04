@@ -1,4 +1,4 @@
-package Security;
+package Security.Authentication;
 
 public class AuthUserLoaderFromFile implements AuthUserLoader {
     @Override

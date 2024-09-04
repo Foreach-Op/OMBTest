@@ -1,4 +1,6 @@
-package Security;
+package Security.Authentication;
+
+import Security.PasswordManager;
 
 public class AuthenticationManager {
 

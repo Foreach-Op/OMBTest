@@ -21,13 +21,15 @@ public class QueueBasedConsumptionStrategy implements ConsumptionStrategy {
 
         header = (header+1) % partitionSize;
         consumerPipe.setHeader(header);
-        consumerPipe.setLatestDataTime(dataBlock.getAddedDateTime());
         if(latestDataTime != null){
-            if(dataBlock.getAddedDateTime().isBefore(latestDataTime)){
+            LocalDateTime addedDateTime = dataBlock.getAddedDateTime();
+            if(addedDateTime.isBefore(latestDataTime) || addedDateTime.isEqual(latestDataTime)){
                 //System.out.println(dataBlock.getCreatedDateTime()+" - "+latestDataTime);
                 return null;
             }
         }
+        consumerPipe.setLatestDataTime(dataBlock.getAddedDateTime());
+
         return dataBlock;
     }
 }

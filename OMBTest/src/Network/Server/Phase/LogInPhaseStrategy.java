@@ -7,7 +7,7 @@ import Network.Useful.ORequest;
 import Network.Useful.OResponse;
 import Produce.Producer;
 import Produce.ProducerManager;
-import Security.AuthenticationManager;
+import Security.Authentication.AuthenticationManager;
 import Security.User;
 import Security.UserManager;
 

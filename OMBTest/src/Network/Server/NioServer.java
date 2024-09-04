@@ -38,6 +38,7 @@ public class NioServer {
 
                 for(SelectionKey key : selector.selectedKeys()){
                     if (!key.isValid()) {
+                        System.out.println("Not Valid");
                         continue;
                     }
                     if (key.isAcceptable()){
@@ -46,9 +47,14 @@ public class NioServer {
                     if (key.isReadable()) {
                         read(selector, key);
                     }
-                    if (key.isWritable()) {
-                        write(selector, key);
+                    try {
+                        if (key.isWritable()) {
+                            write(selector, key);
+                        }
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
                     }
+
                 }
                 selector.selectedKeys().clear();
             }
@@ -83,6 +89,7 @@ public class NioServer {
         if (bytesRead == -1) {
             client.close();
             clients.remove(client);
+            selector.selectedKeys().remove(key);
             System.out.println("Connection closed by client");
             return;
         }

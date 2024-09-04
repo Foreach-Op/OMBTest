@@ -34,11 +34,6 @@ public class ConsumerManager {
     }
 
     public Consumer getConsumer(String token) throws Exception {
-        System.out.println("------");
-        System.out.println(consumerMap.keySet().size());
-        for (String tok:consumerMap.keySet()){
-            System.out.println(tok);
-        }
         if(!consumerMap.containsKey(token))
             throw new Exception("Token is not in the system");
         return consumerMap.get(token);

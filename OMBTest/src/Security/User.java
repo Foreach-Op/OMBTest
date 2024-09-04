@@ -53,20 +53,4 @@ public abstract class User {
     public void setToken(String token) {
         this.token = token;
     }
-
-    private void createToken(String type){
-        SecureRandom random = new SecureRandom();
-        byte[] randomBytes = new byte[8];
-        random.nextBytes(randomBytes);
-        StringBuilder hexString = new StringBuilder(2 * randomBytes.length);
-        for (byte b : randomBytes) {
-            hexString.append(String.format("%02x", b));
-        }
-        String str = hexString.toString();
-        StringBuilder stringBuilder = new StringBuilder(str);
-        stringBuilder.replace(0,1, type);
-        this.token = stringBuilder.toString();
-        System.out.println("Token:"+this.token);
-        System.out.println("Token Length:"+this.token.getBytes().length);
-    }
 }
