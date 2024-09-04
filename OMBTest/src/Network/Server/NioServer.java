@@ -90,12 +90,11 @@ public class NioServer {
 
         Protocol readProtocol = ProtocolHandler.getProtocol(buffer);
         ORequest oRequest1 = readProtocol.getRequest(buffer);
-        oRequest1.setSocketChannel(client);
-        oRequest1.setSelector(selector);
-        String receivedMessage = oRequest1.getMessage();
-        System.out.println("Received message: " + receivedMessage);
-        OResponse response = PhaseHandler.execute(oRequest1);
-        if(response.getPhase() == Constants.DATA_PHASE)
+
+//        String receivedMessage = oRequest1.getMessage();
+//        System.out.println("Received message: " + receivedMessage);
+        OResponse response = PhaseHandler.execute(oRequest1, client, selector);
+        if(response.getPhase() == Constants.DATA_PHASE && response.getUserType() == Constants.CONSUMER)
             return;
         Protocol writeProtocol = ProtocolHandler.getProtocol(response);
         writeProtocol.sendResponse(response, client);

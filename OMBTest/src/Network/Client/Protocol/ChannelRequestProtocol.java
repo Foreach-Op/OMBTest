@@ -32,7 +32,6 @@ public class ChannelRequestProtocol extends Protocol {
         byte[] token = request.getToken().getBytes();
 
         ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 4 + messageLength + 16 + 8);
-        System.out.println(request.getPhase());
         buffer.put(request.getPhase()); // Phase
         buffer.put(request.getUserType()); // Response Type
         buffer.putInt(messageLength); // Message Length

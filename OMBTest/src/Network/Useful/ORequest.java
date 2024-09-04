@@ -12,8 +12,6 @@ public class ORequest {
     private String token;
     private boolean isChecksumValid;
     private DataBlock dataBlock;
-    private SocketChannel socketChannel;
-    private Selector selector;
 
     private ORequest(RequestBuilder builder) {
         this.phase=builder.phase;
@@ -22,8 +20,6 @@ public class ORequest {
         this.token=builder.token;
         this.isChecksumValid =builder.isChecksumValid;
         this.dataBlock = builder.dataBlock;
-        this.socketChannel = builder.socketChannel;
-        this.selector = builder.selector;
     }
 
     public byte getPhase() {
@@ -66,19 +62,6 @@ public class ORequest {
         this.isChecksumValid = checksumValid;
     }
 
-    public SocketChannel getSocketChannel() {
-        return socketChannel;
-    }
-    public Selector getSelector() {
-        return selector;
-    }
-    public void setSocketChannel(SocketChannel socketChannel) {
-        this.socketChannel = socketChannel;
-    }
-    public void setSelector(Selector selector) {
-        this.selector = selector;
-    }
-
     public DataBlock getDataBlock() {
         return dataBlock;
     }
@@ -94,8 +77,6 @@ public class ORequest {
         private String token;
         private DataBlock dataBlock;
         private boolean isChecksumValid = true;
-        private SocketChannel socketChannel;
-        private Selector selector;
 
         public RequestBuilder(byte phase) {
             this.phase = phase;
@@ -118,16 +99,6 @@ public class ORequest {
 
         public RequestBuilder setChecksumValid(boolean isChecksumValid){
             this.isChecksumValid = isChecksumValid;
-            return this;
-        }
-
-        public RequestBuilder setSocketChannel(SocketChannel socketChannel){
-            this.socketChannel = socketChannel;
-            return this;
-        }
-
-        public RequestBuilder setSelector(Selector selector){
-            this.selector = selector;
             return this;
         }
 

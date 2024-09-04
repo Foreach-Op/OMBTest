@@ -12,20 +12,19 @@ public class QueueBasedConsumptionStrategy implements ConsumptionStrategy {
     public DataBlock consume(ConsumerPipe consumerPipe) {
         Partition partition = consumerPipe.getPartition();
         int header = consumerPipe.getHeader();
-        int partitionSize = partition.getPartitionLimit();
-        LocalDateTime latestDataTime = consumerPipe.getLatestDataTime();
         DataBlock dataBlock = partition.get(header);
-        //System.out.println(header);
         if(dataBlock == null){
-            System.out.println("Data Block is null");
             return null;
         }
+        int partitionSize = partition.getPartitionLimit();
+        LocalDateTime latestDataTime = consumerPipe.getLatestDataTime();
+
         header = (header+1) % partitionSize;
         consumerPipe.setHeader(header);
         consumerPipe.setLatestDataTime(dataBlock.getAddedDateTime());
         if(latestDataTime != null){
             if(dataBlock.getAddedDateTime().isBefore(latestDataTime)){
-                System.out.println(dataBlock.getCreatedDateTime()+" - "+latestDataTime);
+                //System.out.println(dataBlock.getCreatedDateTime()+" - "+latestDataTime);
                 return null;
             }
         }

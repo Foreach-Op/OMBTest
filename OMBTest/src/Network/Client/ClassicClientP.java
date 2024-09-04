@@ -23,7 +23,6 @@ public class ClassicClientP {
     public String token = "";
     public void start(int port){
         try (Socket socket = new Socket("localhost", port);
-             Scanner scanner = new Scanner(System.in);
              OutputStream outputStream = socket.getOutputStream();
              InputStream inputStream = socket.getInputStream()) {
             List<String> channels = new ArrayList<>();
@@ -32,10 +31,12 @@ public class ClassicClientP {
             boolean isAuthenticated = authenticate(inputStream, outputStream);
             connectToPartition(inputStream, outputStream, channels);
             int i = 0;
+            Scanner scanner = new Scanner(System.in);
             while (isAuthenticated){
-                String message = "Data Block From 1-" + i;
+                //String message = "Data Block From 1-" + i;
+                String message = scanner.nextLine();
                 startSending(inputStream, outputStream, message, channelList);
-                Thread.sleep(1000);
+                Thread.sleep(5000);
                 i++;
             }
         } catch (Exception e) {
@@ -54,7 +55,7 @@ public class ClassicClientP {
         }
         try {
             OResponse response = protocol.getResponse(inputStream);
-            if(response.getResponseStatus() == Constants.AUTH_SUCCESS){
+            if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
                 token = response.getMessage();
                 System.out.println("Auth successful: " + token);
                 return true;

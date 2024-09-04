@@ -22,17 +22,17 @@ public class ClassicClientC {
     public Map<String, List<DataBlock>> channelDataBlocks = new HashMap<>();
     public void start(int port){
         try (Socket socket = new Socket("localhost", port);
-             Scanner scanner = new Scanner(System.in);
              OutputStream outputStream = socket.getOutputStream();
              InputStream inputStream = socket.getInputStream()) {
             boolean isAuthenticated = false;
             List<String> channels = new ArrayList<>();
             channels.add("channel1");
-            //channels.add("channel2");
+            channels.add("channel2");
             isAuthenticated = authenticate(inputStream, outputStream);
             connectToPartition(inputStream, outputStream, channels);
             startListening(inputStream, outputStream);
             while (isAuthenticated){
+
                 Protocol protocol = new DataConveyingProtocol();
                 OResponse response = protocol.getResponse(inputStream);
                 DataBlock dataBlock = response.getDataBlock();
@@ -63,7 +63,7 @@ public class ClassicClientC {
         }
         try {
             OResponse response = protocol.getResponse(inputStream);
-            if(response.getResponseStatus() == Constants.AUTH_SUCCESS){
+            if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
                 token = response.getMessage();
                 System.out.println("Auth successful: " + token);
                 return true;

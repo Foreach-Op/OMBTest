@@ -31,6 +31,7 @@ public class DataConveyingProtocol extends Protocol{
         DataBlock dataBlock = request.getDataBlock();
         long epoch = dataBlock.getCreatedDateTime().toEpochSecond(ZoneOffset.UTC);
         String constructedMessage = constructData(dataBlock.getPartitionName(), dataBlock.getMessage());
+        constructedMessage += "\n";
         int messageLength = constructedMessage.length();
         byte[] payload = constructedMessage.getBytes();
         long checksum = HashProducer.calculateHash(payload);

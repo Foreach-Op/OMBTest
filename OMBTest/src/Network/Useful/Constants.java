@@ -27,6 +27,7 @@ public class Constants {
     public static final byte RESPONSE_STATUS_SUCCESS = 0x00;
     public static final byte RESPONSE_STATUS_ERROR = 0x01;
     public static final byte RESPONSE_STATUS_TOKEN_NOT_VERIFIED = 0x02;
+    public static final byte RESPONSE_STATUS_AUTHENTICATION_ERROR = 0x04;
 
 
     public static final byte ROLE_USER = 0x00;

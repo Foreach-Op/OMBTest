@@ -20,12 +20,11 @@ public class DataPhaseStrategy implements PhaseStrategy{
     private Selector selector;
 
     @Override
-    public OResponse execute(ORequest request) {
-        System.out.println("DataPhaseStrategy");
+    public OResponse execute(ORequest request, SocketChannel socketChannel, Selector selector) {
         String token = request.getToken();
         byte userType = TokenProcess.determineUserType(token);
-        socketChannel = request.getSocketChannel();
-        selector = request.getSelector();
+        this.socketChannel = socketChannel;
+        this.selector = selector;
         OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(request.getPhase());
         responseBuilder.setUserType(userType);
         try {
@@ -44,23 +43,21 @@ public class DataPhaseStrategy implements PhaseStrategy{
             responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_ERROR).setMessage(e.getMessage());
             return responseBuilder.build();
         }
-        return responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS).setMessage("Success").build();
+        return responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS).setDataBlock(dataBlock).setUserType(userType).build();
     }
 
     private void handleUser(byte userType, String token, DataBlock dataBlock) throws Exception {
         if(userType == Constants.PRODUCER){
             handleProducer(dataBlock, token);
-            System.out.println("Producer Data");
         } else if (userType == Constants.CONSUMER) {
             handleConsumer(dataBlock, token);
-            System.out.println("Consumer Data");
         }
     }
 
     public void handleProducer(DataBlock dataBlock, String token) throws Exception {
         ProducerPipe pipe = ProducerPipeManager.getInstance().getPipe(token, dataBlock.getPartitionName());
         pipe.produce(dataBlock);
-        System.out.println("Produced:"+dataBlock.toString());
+        System.out.println("Produced: "+dataBlock);
         socketChannel.register(selector, SelectionKey.OP_READ);
     }
 

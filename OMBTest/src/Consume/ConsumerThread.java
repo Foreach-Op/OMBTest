@@ -46,17 +46,16 @@ public class ConsumerThread extends Thread{
                             continue;
                         }
                         dataBlocks.add(dataBlock);
-
-                        //System.out.print("Consumed:");
-                        //System.out.println(dataBlock);
                     }
                 }
-                Thread.sleep(500);
+                //Thread.sleep(1);
                 ConsumerManager.getInstance().addData(token, dataBlocks);
 
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } finally {
+            }
+//            catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+            finally {
                 //lock.unlock();
             }
         }

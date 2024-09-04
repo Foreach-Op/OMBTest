@@ -1,7 +1,6 @@
 import Broker.DataBlock;
 import Network.Client.ClassicClientC;
 import Network.Client.ClassicClientP;
-import Network.Client.NioClient;
 import Network.Server.NioServer;
 import Network.Useful.ORequest;
 
@@ -13,11 +12,6 @@ import java.util.*;
 import java.util.zip.CRC32;
 
 public class Main {
-
-//    private static Producer dummyproducer = new Producer("Ali","",1);
-//    private static Producer dummyproducer2 = new Producer("Veli","",1);
-//    private static Consumer dummyConsumer = new Consumer("Mehmet");
-//    private static Partition dummyPartition = new Partition("test");
 
     public static void main(String[] args) {
         //startProducing();
@@ -47,19 +41,6 @@ public class Main {
                 startProducerClient(portNumber);
             }
         }
-//        ByteBuffer buffer = constructMessage(new ORequest.RequestBuilder((byte) 3, (byte) 4).setMessage("HelloWorld").build());
-//        System.out.println("ByteBuffer contents:");
-//
-//        while (buffer.hasRemaining()) {
-//            System.out.print(buffer.get() + " ");
-//        }
-        System.out.println("------");
-        // System.out.println(buffer.get());
-//        String encoded = encode("Hello World".split(" "));
-//        System.out.println(encoded);
-//        String[] decoded = decode(encoded);
-//        for(String d: decoded)
-//            System.out.println(d);
     }
 
     public static String constructData(List<String> partitionNames, String message){
@@ -165,9 +146,6 @@ public class Main {
         }
     }
 
-    public static void startClient(int portNumber, Scanner scanner){
-        new NioClient().start(portNumber, scanner);
-    }
 
     public static void startConsumerClient(int portNumber){
         new ClassicClientC().start(portNumber);

@@ -26,18 +26,10 @@ public abstract class Protocol {
         payload.get(byteArray);
         outputStream.write(byteArray);
         outputStream.flush();
-        // output.write(null,0, 0);
     }
 
     public final OResponse getResponse(InputStream inputStream) throws Exception {
         return extract(inputStream);
-    }
-
-    public long calculateCRC32(byte[] bytes) {
-        // 8 bytes
-        CRC32 crc = new CRC32();
-        crc.update(bytes);
-        return crc.getValue();
     }
 
     protected abstract ByteBuffer wrap(ORequest request);

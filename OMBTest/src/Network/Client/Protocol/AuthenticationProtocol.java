@@ -60,24 +60,9 @@ public class AuthenticationProtocol extends Protocol {
         long receivedChecksum = ByteBuffer.wrap(checksum).getLong();
         long calculatedChecksum = HashProducer.calculateHash(requestMessage);
         boolean isCompatible = (receivedChecksum == calculatedChecksum);
-//        System.out.println(receivedChecksum);
-//        System.out.println(calculatedChecksum);
+
         String msg = new String(requestMessage, StandardCharsets.UTF_8);
 
-//        byte type = byteBuffer.get();
-//        byte status = byteBuffer.get();
-//
-//        byte[] size = new byte[4];
-//        byteBuffer.get(size, 0, size.length);
-//        int messageLength = ByteBuffer.wrap(size).getInt();
-//
-//        byte[] payload = new byte[messageLength];
-//        byteBuffer.get(payload, 0, messageLength);
-//
-//        long receivedChecksum = byteBuffer.getLong();
-//        long calculatedChecksum = calculateCRC32(payload);
-//        boolean isCompatible = (receivedChecksum == calculatedChecksum);
-//        String msg = new String(payload, StandardCharsets.UTF_8);
         OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.AUTHENTICATION_PHASE);
         responseBuilder.setUserType(type);
         responseBuilder.setResponseStatus(status);

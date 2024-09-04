@@ -4,6 +4,8 @@ import Network.Useful.ORequest;
 import Network.Useful.OResponse;
 
 import java.io.IOException;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 
 public class Phase {
     private final PhaseStrategy phaseStrategy;
@@ -12,7 +14,7 @@ public class Phase {
         this.phaseStrategy = phaseStrategy;
     }
 
-    public OResponse executePhase(ORequest request) throws IOException {
-        return phaseStrategy.execute(request);
+    public OResponse executePhase(ORequest request, SocketChannel socketChannel, Selector selector) throws IOException {
+        return phaseStrategy.execute(request, socketChannel, selector);
     }
 }

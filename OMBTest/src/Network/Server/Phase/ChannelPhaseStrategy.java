@@ -19,15 +19,11 @@ import java.nio.channels.SocketChannel;
 
 public class ChannelPhaseStrategy implements PhaseStrategy{
 
-    private SocketChannel socketChannel;
-    private Selector selector;
     @Override
-    public OResponse execute(ORequest request) {
+    public OResponse execute(ORequest request, SocketChannel socketChannel, Selector selector) {
         System.out.println("ChannelPhaseStrategy");
         String token = request.getToken();
         byte userType = TokenProcess.determineUserType(token);
-        socketChannel = request.getSocketChannel();
-        selector = request.getSelector();
         OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(request.getPhase());
         responseBuilder.setUserType(userType);
         try {
@@ -68,7 +64,6 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
         ConsumerManager.getInstance().getConsumer(token);
         Partition partition = PartitionManager.getInstance().getPartition(partitionName);
         ConsumerPipeManager.getInstance().addConsumerPipe(token, partition, ConsumingMethod.QUEUE);
-        // socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
     private void verifyToken(String token, byte userType) throws Exception {

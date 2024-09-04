@@ -101,6 +101,7 @@ public class DataConveyingProtocol extends Protocol{
     }
 
     public String[] extractData(String data){
+        data = data.trim();
         int ind = data.indexOf("#");
         String str1 = data.substring(0,ind);
         int lng =Integer.parseInt(str1);
