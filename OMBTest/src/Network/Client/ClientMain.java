@@ -40,16 +40,18 @@ public class ClientMain {
                 ProducerClient producerClient = startProducerClient(username, password, host, port);
                 producerClient.start();
                 //producerClient.connect(host, port);
-                int i = 0;
+                // StringBuilder mb = new StringBuilder();
+//                for (int j = 0; j < 1024; j++) {
+//                    mb.append("a");
+//                }
                 while (true){
                     String message = scanner.nextLine();
                     producerClient.startSending(message);
-                    i++;
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
                 }
             }
         }

@@ -25,6 +25,8 @@ public class ConsumerPipe {
         this.header = 0;
         this.totalPipedData = 0;
         this.latestDataTime = latestDataTime;
+        // ??
+        this.header = partition.getHeader();
     }
 
     public DataBlock consume(){

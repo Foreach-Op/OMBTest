@@ -2,18 +2,19 @@ package Network.Server.Phase;
 
 import Broker.Partition;
 import Broker.PartitionManager;
+import Consume.Consumer;
 import Consume.ConsumerManager;
-import Consume.ConsumerPipeManager;
+import Consume.ConsumerPipe;
 import Consume.Consumption.ConsumingMethod;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
+import Produce.Producer;
 import Produce.ProducerManager;
-import Produce.ProducerPipeManager;
+import Produce.ProducerPipe;
 import Security.TokenProcess;
 import Security.UserManager;
 
-import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
@@ -28,7 +29,6 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
         responseBuilder.setUserType(userType);
         try {
             TokenProcess.verifyToken(token);
-            // verifyToken(token, userType);
         } catch (Exception e) {
             responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_TOKEN_NOT_VERIFIED).setMessage(e.getMessage());
             return responseBuilder.build();
@@ -54,23 +54,18 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
     }
 
     public void handleProducer(String partitionName, String token) throws Exception {
-        ProducerManager.getInstance().getProducer(token);
+        Producer producer = ProducerManager.getInstance().getProducer(token);
         Partition partition = PartitionManager.getInstance().addPartitionIfNotExists(partitionName);
-        ProducerPipeManager.getInstance().addProducerPipe(token, partition);
+        ProducerPipe producerPipe = new ProducerPipe(partition);
+        producer.addProducerPipe(producerPipe);
+        // ProducerPipeManager.getInstance().addProducerPipe(token, partition);
     }
 
     public void handleConsumer(String partitionName, String token) throws Exception {
-        // Consumer should not produce data
-        ConsumerManager.getInstance().getConsumer(token);
+        Consumer consumer = ConsumerManager.getInstance().getConsumer(token);
         Partition partition = PartitionManager.getInstance().getPartition(partitionName);
-        ConsumerPipeManager.getInstance().addConsumerPipe(token, partition, ConsumingMethod.QUEUE);
-    }
-
-    private void verifyToken(String token, byte userType) throws Exception {
-        if(userType == Constants.PRODUCER)
-            ProducerManager.getInstance().getProducer(token);
-        UserManager.getUser(token);
-
+        ConsumerPipe consumerPipe = new ConsumerPipe(partition, ConsumingMethod.QUEUE);
+        consumer.addConsumerPipe(consumerPipe);
     }
 
 }

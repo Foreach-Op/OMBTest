@@ -54,7 +54,6 @@ public class NioServer {
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
-
                 }
                 selector.selectedKeys().clear();
             }
@@ -77,7 +76,6 @@ public class NioServer {
         SocketChannel client = channel.accept();
         client.configureBlocking(false);
         client.register(selector, SelectionKey.OP_READ);
-        // client.register(selector, SelectionKey.OP_WRITE);
         clients.add(client);
         System.out.println("Accepted connection from: " + client.getRemoteAddress());
     }
@@ -97,17 +95,12 @@ public class NioServer {
 
         Protocol readProtocol = ProtocolHandler.getProtocol(buffer);
         ORequest oRequest1 = readProtocol.getRequest(buffer);
-
-//        String receivedMessage = oRequest1.getMessage();
-//        System.out.println("Received message: " + receivedMessage);
         OResponse response = PhaseHandler.execute(oRequest1, client, selector);
         if(response.getPhase() == Constants.DATA_PHASE && response.getUserType() == Constants.CONSUMER)
             return;
         Protocol writeProtocol = ProtocolHandler.getProtocol(response);
         writeProtocol.sendResponse(response, client);
-
         // client.register(selector, SelectionKey.OP_READ);
-
     }
 
     private void write(Selector selector, SelectionKey key) throws IOException{
@@ -123,7 +116,6 @@ public class NioServer {
             OResponse response = responseBuilder.build();
             dataConveyingProtocol.sendResponse(response, client);
         }
-
         // client.register(selector, SelectionKey.OP_READ);
     }
 }

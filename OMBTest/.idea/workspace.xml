@@ -5,10 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3fbe097-a942-4192-bf90-f8966150dabf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Broker/Partition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Broker/Partition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/ConsumerPipeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/ConsumerPipe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipeManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/ConsumerThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/QueueBasedConsumptionStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/Consumption/QueueBasedConsumptionStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/ClientMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Client/ClientMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Network/Server/NioServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/NioServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Phase/ChannelPhaseStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Phase/ChannelPhaseStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Phase/DataPhaseStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Phase/DataPhaseStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Produce/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Produce/Producer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Produce/ProducerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Produce/ProducerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Produce/ProducerPipeManager.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +133,7 @@
       <workItem from="1723888450123" duration="119552000" />
       <workItem from="1725103658019" duration="23407000" />
       <workItem from="1725196150188" duration="24457000" />
-      <workItem from="1725300797541" duration="28110000" />
+      <workItem from="1725300797541" duration="41134000" />
     </task>
     <servers />
   </component>

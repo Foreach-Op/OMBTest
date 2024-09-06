@@ -10,23 +10,12 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConsumerThread extends Thread{
 
     private final String token;
-    private final List<ConsumerPipe> channels = new ArrayList<>();
+    private final List<ConsumerPipe> channels;
     private volatile boolean isRunning = true;
 
-    public ConsumerThread(String token) {
+    public ConsumerThread(String token, List<ConsumerPipe> channels) {
         this.token = token;
-    }
-
-    public void addConsumerPipe(ConsumerPipe consumerPipe){
-        synchronized (channels){
-            channels.add(consumerPipe);
-        }
-    }
-
-    public void removeConsumerPipe(ConsumerPipe consumerPipe){
-        synchronized (channels){
-            channels.remove(consumerPipe);
-        }
+        this.channels = channels;
     }
 
     public void exit(){

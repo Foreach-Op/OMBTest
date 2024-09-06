@@ -6,14 +6,14 @@ import Consume.ConsumerManager;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
+import Produce.Producer;
+import Produce.ProducerManager;
 import Produce.ProducerPipe;
-import Produce.ProducerPipeManager;
 import Security.TokenProcess;
 
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
-import java.time.LocalDateTime;
 
 public class DataPhaseStrategy implements PhaseStrategy{
     private SocketChannel socketChannel;
@@ -55,7 +55,9 @@ public class DataPhaseStrategy implements PhaseStrategy{
     }
 
     public void handleProducer(DataBlock dataBlock, String token) throws Exception {
-        ProducerPipe pipe = ProducerPipeManager.getInstance().getPipe(token, dataBlock.getPartitionName());
+        // ProducerPipe pipe = ProducerPipeManager.getInstance().getPipe(token, dataBlock.getPartitionName());
+        Producer producer = ProducerManager.getInstance().getProducer(token);
+        ProducerPipe pipe = producer.getPipe(dataBlock.getPartitionName());
         pipe.produce(dataBlock);
         System.out.println("Produced: "+dataBlock);
         socketChannel.register(selector, SelectionKey.OP_READ);

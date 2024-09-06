@@ -2,9 +2,12 @@ package Consume;
 
 
 import Broker.DataBlock;
+import Broker.Partition;
+import Consume.Consumption.ConsumingMethod;
 import Security.User;
 
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -12,14 +15,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Consumer extends User {
 
     private final ConsumerThread consumerThread;
+    private final List<ConsumerPipe> consumerPipes = new ArrayList<>();
     private final BlockingQueue<DataBlock> dataBlockQueue = new LinkedBlockingQueue<>();
 
     public Consumer(String username, SocketChannel socketChannel) {
         super(username, socketChannel, "C");
         SocketConsumerManager.getInstance().addSocketConsumer(socketChannel, this);
-        consumerThread = new ConsumerThread(token);
-        // startThread();
-        // consumerThread.interrupt();
+        consumerThread = new ConsumerThread(token, consumerPipes);
+    }
+
+    public void addConsumerPipe(ConsumerPipe consumerPipe) {
+        synchronized (consumerPipes){
+            consumerPipes.add(consumerPipe);
+        }
     }
 
     public void addDataBlocksToQueue(List<DataBlock> dataBlocks){
@@ -35,14 +43,6 @@ public class Consumer extends User {
         return dataBlocks;
     }
 
-    public void addConsumerPipe(ConsumerPipe consumerPipe){
-        consumerThread.addConsumerPipe(consumerPipe);
-    }
-
-    public void removeConsumerPipe(ConsumerPipe consumerPipe){
-        consumerThread.removeConsumerPipe(consumerPipe);
-    }
-
     public void startThread(){
         consumerThread.start();
     }
@@ -51,26 +51,7 @@ public class Consumer extends User {
         consumerThread.exit();
     }
 
-//    public Consumer(String name){
-//        this(name,null);
-//    }
-//
-//    public Consumer(String name, SocketChannel socketChannel){
-//        this.name = name;
-//        this.socketChannel = socketChannel;
-//        ConsumerManager.getInstance().subscribeConsumer(this);
-//    }
-
-//    public void sendData(DataBlock dataBlock){
-//        try {
-//            consumerSocket.sendData(dataBlock);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     public String getName() {
         return super.username;
     }
-
 }

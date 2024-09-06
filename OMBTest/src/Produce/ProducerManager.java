@@ -1,10 +1,13 @@
 package Produce;
 
+import Broker.Partition;
 import Consume.Consumer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ProducerManager {
     private static ProducerManager producerManager;
@@ -40,6 +43,4 @@ public class ProducerManager {
     public List<Producer> getProducers() throws Exception {
         return producerMap.values().stream().toList();
     }
-
-
 }
