@@ -59,6 +59,9 @@ public class DataConveyingProtocol extends Protocol{
         // Token->16 byte,
         // Epoch->8 byte
         // Checksum->8 byte
+//        while (byteBuffer.hasRemaining())
+//            System.out.println(byteBuffer.get());
+        System.out.println(byteBuffer.array().length);
         byte dataType = byteBuffer.get();
 
         byte[] size = new byte[4];
@@ -70,7 +73,7 @@ public class DataConveyingProtocol extends Protocol{
 
         byte[] token = new byte[16];
         byteBuffer.get(token, 0, token.length);
-
+        System.out.println(new String(token, StandardCharsets.UTF_8));
         long epoch = byteBuffer.getLong();
 
         long receivedChecksum = byteBuffer.getLong();

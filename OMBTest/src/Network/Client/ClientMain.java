@@ -10,6 +10,7 @@ public class ClientMain {
         String username = "admin";
         String password = "admin";
         String host = "localhost";
+        // String host = "192.168.1.101";
         int port = 12345;
 
         try(Scanner scanner = new Scanner(System.in)){
@@ -28,30 +29,15 @@ public class ClientMain {
                         continue;
                     }
                     System.out.println(dataBlock1);
-                    //System.out.println(dataBlock2);
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
                 }
             } else if(res.equalsIgnoreCase("p")){
                 System.out.println("Producer Client");
                 ProducerClient producerClient = startProducerClient(username, password, host, port);
                 producerClient.start();
-                //producerClient.connect(host, port);
-                // StringBuilder mb = new StringBuilder();
-//                for (int j = 0; j < 1024; j++) {
-//                    mb.append("a");
-//                }
+
                 while (true){
                     String message = scanner.nextLine();
                     producerClient.startSending(message);
-//                    try {
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
                 }
             }
         }

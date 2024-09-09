@@ -24,6 +24,7 @@ public class AuthenticationProtocol extends Protocol {
         int messageLength = message.length();
         byte[] payload = message.getBytes();
         long checksum = HashProducer.calculateHash(payload);
+        System.out.println(messageLength);
 
         ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 1 + 4 + messageLength + 8);
 
@@ -47,6 +48,9 @@ public class AuthenticationProtocol extends Protocol {
         // Payload->n byte,
         // Checksum->8 byte
         // byte phase = byteBuffer.get();
+//        while (byteBuffer.hasRemaining()){
+//            System.out.println(byteBuffer.get());
+//        }
         byte type = byteBuffer.get();
         byte[] size = new byte[4];
         byteBuffer.get(size, 0, size.length);

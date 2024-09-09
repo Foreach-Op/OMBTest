@@ -11,15 +11,6 @@ import java.util.zip.CRC32;
 
 public abstract class Protocol {
 
-    protected DataInputStream input;
-    protected DataOutputStream output;
-    protected Constants constants = Constants.getInstance();
-
-    public Protocol() {
-        this.input = null;
-        this.output = null;
-    }
-
     public final void sendRequest(ORequest request, OutputStream outputStream) throws IOException {
         ByteBuffer payload = wrap(request);
         byte[] byteArray = new byte[payload.remaining()];

@@ -25,8 +25,8 @@ public class ConsumerPipe {
         this.header = 0;
         this.totalPipedData = 0;
         this.latestDataTime = latestDataTime;
-        // ??
-        this.header = partition.getHeader();
+        // Where should a new consumer start to consume?
+        // this.header = partition.getHeader() + 1;
     }
 
     public DataBlock consume(){

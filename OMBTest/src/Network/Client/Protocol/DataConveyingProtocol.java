@@ -15,9 +15,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class DataConveyingProtocol extends Protocol{
-    public DataConveyingProtocol() {
-        super();
-    }
 
     @Override
     public ByteBuffer wrap(ORequest request) {

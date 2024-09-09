@@ -25,11 +25,12 @@ public class NioServer {
     private HashSet<SocketChannel> clients = new HashSet<>();
     private ByteBuffer buffer = ByteBuffer.allocate(1024);
 
-    public void start(final int portNumber) throws IOException{
+    public void start(final String host, final int portNumber) throws IOException{
         try(ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
             Selector selector = Selector.open()) {
             serverSocketChannel.configureBlocking(false);
-            serverSocketChannel.bind(new InetSocketAddress(portNumber));
+            InetSocketAddress hostAddress = new InetSocketAddress(host, portNumber);
+            serverSocketChannel.bind(hostAddress);
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
             while (true){

@@ -5,18 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3fbe097-a942-4192-bf90-f8966150dabf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Consume/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/Consumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/ConsumerPipe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerPipeManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consume/ConsumerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/ConsumerThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Consume/Consumption/QueueBasedConsumptionStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Consume/Consumption/QueueBasedConsumptionStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Network/Client/ClientMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Client/ClientMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/Protocol/AuthenticationProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Client/Protocol/AuthenticationProtocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/Protocol/ChannelRequestProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Client/Protocol/ChannelRequestProtocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/Protocol/DataConveyingProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Client/Protocol/DataConveyingProtocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Client/Protocol/Protocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Client/Protocol/Protocol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Network/Server/NioServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/NioServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Network/Server/Phase/ChannelPhaseStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Phase/ChannelPhaseStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Network/Server/Phase/DataPhaseStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Phase/DataPhaseStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Produce/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Produce/Producer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Produce/ProducerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Produce/ProducerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Produce/ProducerPipeManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Protocol/AuthenticationProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Protocol/AuthenticationProtocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Protocol/DataConveyingProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Protocol/DataConveyingProtocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Server/Protocol/Protocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Server/Protocol/Protocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Useful/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Useful/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network/Useful/OResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network/Useful/OResponse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,23 +50,23 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ClientMain.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/oguzhantas/Documents/GitHub/OMBTest/OMBTest/src/Network/Server/Process",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ClientMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/oguzhantas/Documents/GitHub/OMBTest/OMBTest/src/Network/Server/Process&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/Network/Server/Process" />
@@ -133,7 +136,8 @@
       <workItem from="1723888450123" duration="119552000" />
       <workItem from="1725103658019" duration="23407000" />
       <workItem from="1725196150188" duration="24457000" />
-      <workItem from="1725300797541" duration="41134000" />
+      <workItem from="1725300797541" duration="58466000" />
+      <workItem from="1725876778432" duration="111000" />
     </task>
     <servers />
   </component>

@@ -18,7 +18,6 @@ public abstract class Protocol {
 
     protected DataInputStream input;
     protected DataOutputStream output;
-    protected Constants constants = Constants.getInstance();
 
     public Protocol() {
         this.input = null;

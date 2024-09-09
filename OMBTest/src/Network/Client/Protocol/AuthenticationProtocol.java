@@ -13,10 +13,6 @@ import java.nio.charset.StandardCharsets;
 
 public class AuthenticationProtocol extends Protocol {
 
-    public AuthenticationProtocol() {
-        super();
-    }
-
     @Override
     public ByteBuffer wrap(ORequest request) {
         // Phase->1 byte, UserType->1 byte, Message Size->4 byte, Payload->n byte, Checksum->8 byte

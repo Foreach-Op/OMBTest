@@ -20,6 +20,7 @@ public class QueueBasedConsumptionStrategy implements ConsumptionStrategy {
         LocalDateTime latestDataTime = consumerPipe.getLatestDataTime();
 
         header = (header+1) % partitionSize;
+        // System.out.println(header);
         consumerPipe.setHeader(header);
         if(latestDataTime != null){
             LocalDateTime addedDateTime = dataBlock.getAddedDateTime();
@@ -29,7 +30,7 @@ public class QueueBasedConsumptionStrategy implements ConsumptionStrategy {
             }
         }
         consumerPipe.setLatestDataTime(dataBlock.getAddedDateTime());
-
+        System.out.println("Consumed: " + dataBlock);
         return dataBlock;
     }
 }

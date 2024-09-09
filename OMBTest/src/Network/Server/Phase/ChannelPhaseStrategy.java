@@ -58,12 +58,12 @@ public class ChannelPhaseStrategy implements PhaseStrategy{
         Partition partition = PartitionManager.getInstance().addPartitionIfNotExists(partitionName);
         ProducerPipe producerPipe = new ProducerPipe(partition);
         producer.addProducerPipe(producerPipe);
-        // ProducerPipeManager.getInstance().addProducerPipe(token, partition);
     }
 
     public void handleConsumer(String partitionName, String token) throws Exception {
         Consumer consumer = ConsumerManager.getInstance().getConsumer(token);
-        Partition partition = PartitionManager.getInstance().getPartition(partitionName);
+        // Partition partition = PartitionManager.getInstance().getPartition(partitionName);
+        Partition partition = PartitionManager.getInstance().addPartitionIfNotExists(partitionName);
         ConsumerPipe consumerPipe = new ConsumerPipe(partition, ConsumingMethod.QUEUE);
         consumer.addConsumerPipe(consumerPipe);
     }

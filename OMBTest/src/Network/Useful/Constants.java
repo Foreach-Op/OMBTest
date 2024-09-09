@@ -1,16 +1,6 @@
 package Network.Useful;
 
 public class Constants {
-    private static Constants instance;
-
-    private Constants(){}
-
-    public static Constants getInstance(){
-        if (instance == null)
-            instance = new Constants();
-        return instance;
-    }
-
     public static final byte AUTHENTICATION_PHASE = 0x00;
     public static final byte SIGNUP_PHASE=0x01;
     public static final byte CHANNEL_CREATE_PHASE=0x02;

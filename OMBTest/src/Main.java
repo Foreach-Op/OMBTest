@@ -14,32 +14,21 @@ import java.util.zip.CRC32;
 public class Main {
 
     public static void main(String[] args) {
-        //startProducing();
-        //startConsuming();
-        StringBuilder sb = new StringBuilder();
-        List<String> partitionNames = new ArrayList<>();
-        partitionNames.add("channelchannel");
-        partitionNames.add("oguzogzu");
-        String partitionName = "channelchannel";
-        String data = "testdata";
-        String msg = constructData(partitionNames, data);
-        System.out.println(msg);
-        extractData(msg);
+//        StringBuilder sb = new StringBuilder();
+//        List<String> partitionNames = new ArrayList<>();
+//        partitionNames.add("channelchannel");
+//        partitionNames.add("oguzogzu");
+//        String partitionName = "channelchannel";
+//        String data = "testdata";
+//        String msg = constructData(partitionNames, data);
+//        System.out.println(msg);
+//        extractData(msg);
         int portNumber = 12345;
 
         try(Scanner scanner = new Scanner(System.in)){
             System.out.println("Is this a server?");
-            String res = scanner.nextLine();
-            if(res.equalsIgnoreCase("y")){
-                System.out.println("NIO Server");
-                startServer(portNumber);
-            } else if (res.equalsIgnoreCase("c")) {
-                System.out.println("Consumer Client");
-                startConsumerClient(portNumber);
-            } else if(res.equalsIgnoreCase("p")){
-                System.out.println("Producer Client");
-                startProducerClient(portNumber);
-            }
+            System.out.println("NIO Server");
+            startServer(portNumber);
         }
     }
 
@@ -140,7 +129,7 @@ public class Main {
 
     public static void startServer(int portNumber){
         try {
-            new NioServer().start(portNumber);
+            new NioServer().start("0.0.0.0", portNumber);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

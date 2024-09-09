@@ -13,10 +13,6 @@ import java.nio.charset.StandardCharsets;
 
 public class ChannelRequestProtocol extends Protocol {
 
-    public ChannelRequestProtocol() {
-        super();
-    }
-
     @Override
     public ByteBuffer wrap(ORequest request) {
         // Phase->1 byte,

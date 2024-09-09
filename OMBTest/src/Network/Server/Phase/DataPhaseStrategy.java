@@ -39,7 +39,7 @@ public class DataPhaseStrategy implements PhaseStrategy{
         try {
             handleUser(userType, token, dataBlock);
         } catch (Exception e) {
-            System.err.println(e);
+            System.err.println(e.getMessage());
             responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_ERROR).setMessage(e.getMessage());
             return responseBuilder.build();
         }
