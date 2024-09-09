@@ -51,20 +51,22 @@ public class DataConveyingProtocol extends Protocol{
     @Override
     public OResponse extract(InputStream inputStream) throws IOException {
         // Phase->1 byte,
+        // Response Status->1 byte,
         // Message Type->1 byte,
         // Payload Size->4 byte,
         // Payload->n byte,
         // Epoch->8 byte
         // Checksum->8 byte
-        byte[] header = new byte[6];
+        byte[] header = new byte[7];
         int err = inputStream.read(header, 0, header.length);
         if (err == -1) throw new EOFException();
 
         byte phase = header[0];
-        byte dataType = header[1];
+        byte responseStatus = header[1];
+        byte dataType = header[2];
 
         byte[] size = new byte[4];
-        for (int i = 0, j = 2; i < size.length; i++, j++) {
+        for (int i = 0, j = 3; i < size.length; i++, j++) {
             size[i] = header[j];
         }
         int messageLength = ByteBuffer.wrap(size).getInt();
@@ -93,6 +95,7 @@ public class DataConveyingProtocol extends Protocol{
         dataBlock.setCreatedDateTime(dateTime);
         dataBlock.setDataType(dataType);
         OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.DATA_PHASE);
+        responseBuilder.setResponseStatus(responseStatus);
         responseBuilder.setDataBlock(dataBlock);
         responseBuilder.setChecksumValid(isCompatible);
         return responseBuilder.build();

@@ -21,6 +21,7 @@ public class DataConveyingProtocol extends Protocol{
     @Override
     public ByteBuffer wrap(OResponse response) {
         // Phase->1 byte,
+        // Response Status->1 byte,
         // Message Type->1 byte,
         // Payload Size->4 byte,
         // Payload->n byte,
@@ -37,9 +38,10 @@ public class DataConveyingProtocol extends Protocol{
         long checksum = HashProducer.calculateHash(payload);
         long epoch = dataBlock.getCreatedDateTime().toEpochSecond(ZoneOffset.UTC);
 
-        ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 4 + dataLength + 8 + 8);
+        ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 1 + 4 + dataLength + 8 + 8);
 
         buffer.put(response.getPhase()); // Phase
+        buffer.put(response.getResponseStatus()); // Response Status
         buffer.put(dataBlock.getDataType()); // Message Type
         buffer.putInt(dataLength); // Message Length
         buffer.put(payload); // Payload
@@ -59,8 +61,7 @@ public class DataConveyingProtocol extends Protocol{
         // Token->16 byte,
         // Epoch->8 byte
         // Checksum->8 byte
-//        while (byteBuffer.hasRemaining())
-//            System.out.println(byteBuffer.get());
+
         System.out.println(byteBuffer.array().length);
         byte dataType = byteBuffer.get();
 

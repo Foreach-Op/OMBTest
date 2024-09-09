@@ -114,6 +114,7 @@ public class NioServer {
         for (DataBlock dataBlock : dataBlocks) {
             OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.DATA_PHASE);
             responseBuilder.setDataBlock(dataBlock);
+            responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS);
             OResponse response = responseBuilder.build();
             dataConveyingProtocol.sendResponse(response, client);
         }
