@@ -23,12 +23,13 @@ public class Main {
 //        String msg = constructData(partitionNames, data);
 //        System.out.println(msg);
 //        extractData(msg);
+        String host = "0.0.0.0";
         int portNumber = 12345;
 
         try(Scanner scanner = new Scanner(System.in)){
             System.out.println("Is this a server?");
             System.out.println("NIO Server");
-            startServer(portNumber);
+            startServer(host, portNumber);
         }
     }
 
@@ -127,9 +128,9 @@ public class Main {
         return crc.getValue();
     }
 
-    public static void startServer(int portNumber){
+    public static void startServer(String host, int portNumber){
         try {
-            new NioServer().start("0.0.0.0", portNumber);
+            new NioServer().start(host, portNumber);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
