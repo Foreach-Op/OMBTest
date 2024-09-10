@@ -4,7 +4,6 @@ import Broker.DataBlock;
 
 import java.nio.channels.SocketChannel;
 import java.util.HashMap;
-import java.util.List;
 
 public class SocketConsumerManager {
     private static SocketConsumerManager socketConsumerManager;
@@ -27,6 +26,6 @@ public class SocketConsumerManager {
     }
 
     public DataBlock[] getData(SocketChannel socketChannel, int amount){
-        return socketChannelConsumerHashMap.get(socketChannel).removeDataBlocks(amount);
+        return socketChannelConsumerHashMap.get(socketChannel).pollDataBlocks(amount);
     }
 }

@@ -11,8 +11,8 @@ import java.util.List;
 public class Producer extends User {
 
     private final List<ProducerPipe> producerPipes;
-    public Producer(String username, SocketChannel socketChannel) {
-        super(username, socketChannel, "P");
+    public Producer(String username) {
+        super(username,"P");
         producerPipes = new ArrayList<>();
     }
 

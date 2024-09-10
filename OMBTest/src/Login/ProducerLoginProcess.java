@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
 public class ProducerLoginProcess implements Loggable {
     @Override
     public User login(String username, SocketChannel socketChannel) throws Exception {
-        Producer producer = new Producer(username, socketChannel);
+        Producer producer = new Producer(username);
         UserManager.saveUser(producer.getToken(), producer);
         ProducerManager.getInstance().addProducer(producer.getToken(), producer);
         return producer;

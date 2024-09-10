@@ -1,26 +1,20 @@
 package Consume;
 
-
 import Broker.DataBlock;
-import Broker.Partition;
-import Consume.Consumption.ConsumingMethod;
 import Security.User;
 
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Consumer extends User {
-
     private final ConsumerThread consumerThread;
     private final List<ConsumerPipe> consumerPipes = new ArrayList<>();
     private final BlockingQueue<DataBlock> dataBlockQueue = new LinkedBlockingQueue<>();
 
-    public Consumer(String username, SocketChannel socketChannel) {
-        super(username, socketChannel, "C");
-        SocketConsumerManager.getInstance().addSocketConsumer(socketChannel, this);
+    public Consumer(String username) {
+        super(username,"C");
         consumerThread = new ConsumerThread(token, consumerPipes);
     }
 
@@ -34,7 +28,7 @@ public class Consumer extends User {
         dataBlockQueue.addAll(dataBlocks);
     }
 
-    public DataBlock[] removeDataBlocks(int amount){
+    public DataBlock[] pollDataBlocks(int amount){
         int size = Math.min(amount, dataBlockQueue.size());
         DataBlock[] dataBlocks = new DataBlock[size];
         for (int i = 0; i < size; i++) {

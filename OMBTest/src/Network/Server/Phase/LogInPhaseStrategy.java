@@ -47,32 +47,4 @@ public class LogInPhaseStrategy implements PhaseStrategy {
         System.out.println("Token:" + user.getToken());
         return responseBuilder.build();
     }
-
-    /*
-    private User handleUser(byte userType, String username) throws Exception {
-        User user = null;
-        if(userType == Constants.PRODUCER){
-            user = handleProducer(username);
-        } else if (userType == Constants.CONSUMER) {
-            user = handleConsumer(username);
-        }
-        UserManager.saveUser(user.getToken(), user);
-        return user;
-    }
-
-    private User handleProducer(String username) throws Exception {
-        Producer producer = new Producer(username, socketChannel);
-        ProducerManager.getInstance().addProducer(producer.getToken(), producer);
-        return producer;
-    }
-
-    private User handleConsumer(String username) throws Exception {
-        Consumer consumer = new Consumer(username, socketChannel);
-        ConsumerManager.getInstance().addConsumer(consumer.getToken(), consumer);
-        System.out.println("Consumer Added");
-        System.out.println(ConsumerManager.getInstance().getConsumer(consumer.getToken()));
-        return consumer;
-    }
-
-     */
 }

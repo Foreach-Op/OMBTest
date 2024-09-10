@@ -10,24 +10,14 @@ import java.util.Random;
 import java.util.UUID;
 
 public abstract class User {
-    protected SocketChannel socketChannel;
     protected String username;
     protected String token;
     protected byte role;
 
 
-    public User(String username, SocketChannel socketChannel, String type){
+    public User(String username, String type){
         this.username = username;
-        this.socketChannel = socketChannel;
         this.token = TokenProcess.createToken(type);
-    }
-
-    public SocketChannel getSocketChannel() {
-        return socketChannel;
-    }
-
-    public void setSocketChannel(SocketChannel socketChannel) {
-        this.socketChannel = socketChannel;
     }
 
     public String getToken() {
