@@ -7,10 +7,10 @@ import java.util.Scanner;
 
 public class ClientMain {
     public static void main(String[] args) {
-        String username = "admin";
-        String password = "admin";
-        String host = "localhost";
-        // String host = "192.168.1.101";
+        String username = "oguz";
+        String password = "oguz";
+        // String host = "localhost";
+        String host = "192.168.1.109";
         int port = 12345;
 
         try(Scanner scanner = new Scanner(System.in)){
