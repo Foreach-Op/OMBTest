@@ -23,6 +23,7 @@ public class Main {
 //        String msg = constructData(partitionNames, data);
 //        System.out.println(msg);
 //        extractData(msg);
+        //String host = "localhost";
         String host = "0.0.0.0";
         int portNumber = 12345;
 
