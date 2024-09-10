@@ -7,6 +7,7 @@ public class AuthUserLoaderFromMap implements AuthUserLoader {
     public AuthUserLoaderFromMap(){
         usernamePasswordMap.put("admin", "admin");
         usernamePasswordMap.put("oguz", "oguz");
+        usernamePasswordMap.put("broadcast", "broadcast");
     }
     @Override
     public AuthUser loadUserByUsername(String username) {

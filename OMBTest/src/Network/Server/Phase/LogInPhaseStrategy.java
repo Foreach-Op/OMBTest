@@ -2,6 +2,7 @@ package Network.Server.Phase;
 
 import Consume.Consumer;
 import Consume.ConsumerManager;
+import Login.LoginHandler;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
@@ -15,13 +16,11 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
 public class LogInPhaseStrategy implements PhaseStrategy {
-    private SocketChannel socketChannel;
-    private Selector selector;
+    private final LoginHandler loginHandler = new LoginHandler();
+
     @Override
     public OResponse execute(ORequest request, SocketChannel socketChannel, Selector selector) {
         System.out.println("LogInPhaseStrategy");
-        this.socketChannel = socketChannel;
-        this.selector = selector;
         OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.AUTHENTICATION_PHASE);
         byte userType = request.getUserType();
         String msg = request.getMessage();
@@ -37,7 +36,8 @@ public class LogInPhaseStrategy implements PhaseStrategy {
         }
         User user = null;
         try {
-            user = handleUser(userType, username);
+            user = loginHandler.handleLogin(userType, username, socketChannel);
+            // user = handleUser(userType, username);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_AUTHENTICATION_ERROR).setMessage(e.getMessage());
@@ -48,6 +48,7 @@ public class LogInPhaseStrategy implements PhaseStrategy {
         return responseBuilder.build();
     }
 
+    /*
     private User handleUser(byte userType, String username) throws Exception {
         User user = null;
         if(userType == Constants.PRODUCER){
@@ -72,4 +73,6 @@ public class LogInPhaseStrategy implements PhaseStrategy {
         System.out.println(ConsumerManager.getInstance().getConsumer(consumer.getToken()));
         return consumer;
     }
+
+     */
 }

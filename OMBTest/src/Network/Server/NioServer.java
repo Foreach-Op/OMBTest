@@ -23,7 +23,7 @@ import java.util.HashSet;
 
 public class NioServer {
     private HashSet<SocketChannel> clients = new HashSet<>();
-    private ByteBuffer buffer = ByteBuffer.allocate(1024);
+    private ByteBuffer buffer = ByteBuffer.allocate(1024*10);
 
     public void start(final String host, final int portNumber) throws IOException{
         try(ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
