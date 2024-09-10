@@ -84,40 +84,65 @@ public class NioServer {
     private void read(Selector selector, SelectionKey key) throws IOException {
         SocketChannel client = (SocketChannel) key.channel();
         buffer.clear();
-        int bytesRead = client.read(buffer);
-        if (bytesRead == -1) {
-            client.close();
-            clients.remove(client);
-            selector.selectedKeys().remove(key);
-            System.out.println("Connection closed by client");
-            return;
-        }
-        buffer.flip();
 
-        Protocol readProtocol = ProtocolHandler.getProtocol(buffer);
-        ORequest oRequest1 = readProtocol.getRequest(buffer);
-        OResponse response = PhaseHandler.execute(oRequest1, client, selector);
-        if(response.getPhase() == Constants.DATA_PHASE && response.getUserType() == Constants.CONSUMER)
-            return;
-        Protocol writeProtocol = ProtocolHandler.getProtocol(response);
-        writeProtocol.sendResponse(response, client);
-        // client.register(selector, SelectionKey.OP_READ);
+        try {
+            int bytesRead = client.read(buffer);
+            if (bytesRead == -1) {
+                // Client has closed the connection, handle it
+                handleClientDisconnect(client, key, selector);
+                return;
+            }
+
+            buffer.flip();
+
+            Protocol readProtocol = ProtocolHandler.getProtocol(buffer);
+            ORequest oRequest1 = readProtocol.getRequest(buffer);
+            OResponse response = PhaseHandler.execute(oRequest1, client, selector);
+
+            if (response.getPhase() == Constants.DATA_PHASE && response.getUserType() == Constants.CONSUMER)
+                return;
+
+            Protocol writeProtocol = ProtocolHandler.getProtocol(response);
+            writeProtocol.sendResponse(response, client);
+
+        } catch (IOException e) {
+            // IOException occurred, likely due to a disconnection
+            handleClientDisconnect(client, key, selector);
+        }
     }
 
-    private void write(Selector selector, SelectionKey key) throws IOException{
+
+    private void write(Selector selector, SelectionKey key) throws IOException {
         SocketChannel client = (SocketChannel) key.channel();
 
-        Protocol dataConveyingProtocol = new DataConveyingProtocol();
+        try {
+            Protocol dataConveyingProtocol = new DataConveyingProtocol();
+            DataBlock[] dataBlocks = SocketConsumerManager.getInstance().getData(client, 10);
 
-        DataBlock[] dataBlocks = SocketConsumerManager.getInstance().getData(client, 10);
+            for (DataBlock dataBlock : dataBlocks) {
+                OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.DATA_PHASE);
+                responseBuilder.setDataBlock(dataBlock);
+                responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS);
+                OResponse response = responseBuilder.build();
+                dataConveyingProtocol.sendResponse(response, client);
+            }
 
-        for (DataBlock dataBlock : dataBlocks) {
-            OResponse.ResponseBuilder responseBuilder = new OResponse.ResponseBuilder(Constants.DATA_PHASE);
-            responseBuilder.setDataBlock(dataBlock);
-            responseBuilder.setResponseStatus(Constants.RESPONSE_STATUS_SUCCESS);
-            OResponse response = responseBuilder.build();
-            dataConveyingProtocol.sendResponse(response, client);
+        } catch (IOException e) {
+            // Handle disconnection
+            handleClientDisconnect(client, key, selector);
         }
-        // client.register(selector, SelectionKey.OP_READ);
     }
+
+
+    private void handleClientDisconnect(SocketChannel client, SelectionKey key, Selector selector) {
+        try {
+            System.out.println("Connection closed by client: " + client.getRemoteAddress());
+            clients.remove(client);
+            key.cancel(); // Cancel the selection key
+            client.close(); // Close the channel
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
