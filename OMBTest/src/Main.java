@@ -134,49 +134,4 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
-
-
-    public static void startConsumerClient(int portNumber){
-        new ClassicClientC().start(portNumber);
-    }
-
-    public static void startProducerClient(int portNumber){
-        new ClassicClientP().start(portNumber);
-    }
-
-//    public static void startProducing(){
-//        ExecutorService executorService = Executors.newFixedThreadPool(2);
-//        ProducerPipe producerPipe = new ProducerPipe(dummyproducer, dummyPartition);
-//        ProducerPipe producerPipe2 = new ProducerPipe(dummyproducer2, dummyPartition);
-//        executorService.submit(()->{
-//            while (true){
-//                DataBlock dataBlock = new DataBlock(producerPipe.getProducer().getName());
-//                System.out.println("producerPipe1 produced: "+ dataBlock.getDateTime());
-//                producerPipe.produce(dataBlock);
-//                Thread.sleep(1000);
-//            }
-//        });
-//        executorService.submit(()->{
-//            while (true){
-//                DataBlock dataBlock = new DataBlock(producerPipe2.getProducer().getName());
-//                System.out.println("producerPipe2 produced: "+ dataBlock.getDateTime());
-//                producerPipe2.produce(dataBlock);
-//                Thread.sleep(3000);
-//            }
-//        });
-//
-//        executorService.shutdown();
-//    }
-//
-//    public static void startConsuming(){
-//        ConsumerPipe consumerPipe = new ConsumerPipe(dummyConsumer, dummyPartition, ConsumingMethod.QUEUE);
-//        ConsumerPipe consumerPipe2 = new ConsumerPipe(dummyConsumer, dummyPartition, ConsumingMethod.QUEUE);
-//        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-//
-//        ConsumerPipeManager consumerPipeManager = new ConsumerPipeManager();
-//        consumerPipeManager.submitConsumerPipe(consumerPipe);
-//        consumerPipeManager.submitConsumerPipe(consumerPipe2);
-//        scheduler.scheduleAtFixedRate(consumerPipeManager, 1, 5, TimeUnit.SECONDS);
-//
-//    }
 }

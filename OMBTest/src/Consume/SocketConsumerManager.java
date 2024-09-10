@@ -24,6 +24,14 @@ public class SocketConsumerManager {
     public Consumer getConsumer(SocketChannel socketChannel){
         return socketChannelConsumerHashMap.get(socketChannel);
     }
+    public SocketChannel getSocketChannel(Consumer consumer){
+        for (SocketChannel socketChannel: socketChannelConsumerHashMap.keySet()){
+            if(socketChannelConsumerHashMap.get(socketChannel).equals(consumer)){
+                return socketChannel;
+            }
+        }
+        return null;
+    }
 
     public DataBlock[] getData(SocketChannel socketChannel, int amount){
         return socketChannelConsumerHashMap.get(socketChannel).pollDataBlocks(amount);
