@@ -58,7 +58,7 @@ public class ConsumerClient extends Client{
                 //System.out.println(dataBlock);
                 classifyDataBlock(dataBlock);
             } catch (Exception e) {
-                isRunning = false;
+                // isRunning = false;
                 System.err.println(e.getMessage());
             }
         }

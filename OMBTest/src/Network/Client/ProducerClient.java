@@ -43,7 +43,6 @@ public class ProducerClient extends Client{
 
     @Override
     public void run() {
-
         connect();
         while (isRunning){
             try {
@@ -53,11 +52,7 @@ public class ProducerClient extends Client{
                 ORequest.RequestBuilder requestBuilder = new ORequest.RequestBuilder(Constants.DATA_PHASE);
                 requestBuilder.setToken(token);
                 requestBuilder.setDataBlock(dataBlock);
-                //ByteBuffer payload = protocol.wrap(requestBuilder.build());
-                //byte[] byteArray = new byte[payload.remaining()];
-                //payload.get(byteArray);
-                //bufferedOutputStream.write(byteArray);
-                //bufferedOutputStream.flush();
+
                 try {
                     protocol.sendRequest(requestBuilder.build(), outputStream);
                     OResponse response = protocol.getResponse(inputStream);
@@ -67,11 +62,9 @@ public class ProducerClient extends Client{
                     }else {
                         System.err.println(response.getDataBlock().getMessage());
                     }
-
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
-                //Thread.sleep(100);
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
             }
