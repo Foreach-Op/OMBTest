@@ -31,12 +31,12 @@ public class ConsumerClient extends Client{
     }
 
     public DataBlock receiveData(String channel){
-        BlockingQueue<DataBlock> dataBlocks = channelDataBlocks.get(channel);
+        //BlockingQueue<DataBlock> dataBlocks = channelDataBlocks.get(channel);
         return dataBlocks.poll();
     }
 
     public void classifyDataBlock(DataBlock dataBlock){
-        BlockingQueue<DataBlock> dataBlocks = channelDataBlocks.get(dataBlock.getPartitionName());
+        //BlockingQueue<DataBlock> dataBlocks = channelDataBlocks.get(dataBlock.getPartitionName());
         try {
             if(dataBlocks.remainingCapacity() == 0)
                 dataBlocks.poll();

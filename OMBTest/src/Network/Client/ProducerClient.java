@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ProducerClient extends Client{
 
-    BlockingQueue<DataBlock> blockBlockingQueue = new LinkedBlockingDeque<>();
-
+    private final BlockingQueue<DataBlock> blockBlockingQueue = new LinkedBlockingQueue<>();
+    private final DataConveyingProtocol protocol = new DataConveyingProtocol();
 
     public ProducerClient(String username, String password, String host, int port, List<String> channelList) {
         super(username, password, host, port, Constants.PRODUCER, channelList);
@@ -42,8 +43,8 @@ public class ProducerClient extends Client{
 
     @Override
     public void run() {
+
         connect();
-        DataConveyingProtocol protocol = new DataConveyingProtocol();
         while (isRunning){
             try {
                 DataBlock dataBlock = blockBlockingQueue.take();

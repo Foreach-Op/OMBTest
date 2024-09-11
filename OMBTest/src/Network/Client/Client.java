@@ -31,6 +31,7 @@ public class Client extends Thread{
     protected BufferedOutputStream bufferedOutputStream;
     protected final Set<String> channels = new HashSet<>();
     protected final Map<String, BlockingQueue<DataBlock>> channelDataBlocks = new HashMap<>();
+    protected final BlockingQueue<DataBlock> dataBlocks;
 
     public Client(String username, String password, String host, int port, byte userType, List<String> channelList){
         this.username = username;
@@ -40,23 +41,35 @@ public class Client extends Thread{
         this.userType = userType;
         this.channels.addAll(channelList);
         this.capacity = 10;
+        this.dataBlocks = new ArrayBlockingQueue<>(capacity);
         for (String s: channels){
             channelDataBlocks.put(s, new ArrayBlockingQueue<>(capacity));
         }
     }
 
     public void connect(){
-        try {
-            socket = new Socket(host, port);
-            outputStream = socket.getOutputStream();
-            inputStream = socket.getInputStream();
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
-            bufferedOutputStream = new BufferedOutputStream(outputStream);
-            authenticate();
-            connectToChannels();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        boolean tryToConnect = true;
+        while (tryToConnect){
+            tryToConnect = false;
+            try {
+                socket = new Socket(host, port);
+                outputStream = socket.getOutputStream();
+                inputStream = socket.getInputStream();
+                bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                bufferedOutputStream = new BufferedOutputStream(outputStream);
+                authenticate();
+                connectToChannels();
+            } catch (IOException e) {
+                tryToConnect = true;
+                try {
+                    Thread.sleep(5000);
+                    System.out.println("Trying Again");
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
+
     }
 
     private void authenticate(){
