@@ -44,11 +44,11 @@ public class ClientMain {
     }
 
     public static ConsumerClient startConsumerClient(String username, String password, String host, int port){
-        return new ConsumerClient(username, password, host, port, List.of("channel1", "channel2"));
+        return new ConsumerClient(username, password, host, port, List.of("channel1", "channel2", "channel6"));
     }
 
     public static ProducerClient startProducerClient(String username, String password, String host, int port){
-        return new ProducerClient(username, password, host, port, List.of("channel1", "channel2", "channel3"));
+        return new ProducerClient(username, password, host, port, List.of("channel1", "channel2", "channel5"));
 
     }
 }

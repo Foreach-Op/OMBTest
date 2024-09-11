@@ -1,5 +1,8 @@
 package Security;
 
+import Consume.ConsumerManager;
+import Produce.ProducerManager;
+
 import java.util.HashMap;
 
 public class UserManager {
@@ -23,10 +26,18 @@ public class UserManager {
         userHashMap.put(token, user);
     }
 
-    public static boolean removeUser(String token){
+    public boolean removeUser(String token){
         if(userHashMap.containsKey(token)){
             userHashMap.remove(token);
             return true;
+        }
+        switch (token.charAt(0)){
+            case 'P':
+                ProducerManager.getInstance().removeProducer(token);
+                break;
+            case 'C':
+                ConsumerManager.getInstance().removeConsumer(token);
+                break;
         }
         return false;
     }

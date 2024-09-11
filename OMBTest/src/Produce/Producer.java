@@ -6,17 +6,19 @@ import Security.User;
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Producer extends User {
 
-    private final List<ProducerPipe> producerPipes;
+    private final Set<ProducerPipe> producerPipes;
     public Producer(String username) {
         super(username,"P");
-        producerPipes = new ArrayList<>();
+        producerPipes = new HashSet<>();
     }
 
-    public List<ProducerPipe> getProducerPipes(){
+    public Set<ProducerPipe> getProducerPipes(){
         return this.producerPipes;
     }
 

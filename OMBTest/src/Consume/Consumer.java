@@ -4,13 +4,15 @@ import Broker.DataBlock;
 import Security.User;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Consumer extends User {
     private final ConsumerThread consumerThread;
-    private final List<ConsumerPipe> consumerPipes = new ArrayList<>();
+    private final Set<ConsumerPipe> consumerPipes = new HashSet<>();
     private final BlockingQueue<DataBlock> dataBlockQueue = new LinkedBlockingQueue<>();
 
     public Consumer(String username) {

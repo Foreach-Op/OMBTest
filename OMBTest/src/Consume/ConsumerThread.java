@@ -4,16 +4,17 @@ import Broker.DataBlock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConsumerThread extends Thread{
 
     private final String token;
-    private final List<ConsumerPipe> channels;
+    private final Set<ConsumerPipe> channels;
     private volatile boolean isRunning = true;
 
-    public ConsumerThread(String token, List<ConsumerPipe> channels) {
+    public ConsumerThread(String token, Set<ConsumerPipe> channels) {
         this.token = token;
         this.channels = channels;
     }
