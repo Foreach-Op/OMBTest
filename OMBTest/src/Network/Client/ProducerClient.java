@@ -1,15 +1,11 @@
 package Network.Client;
 
 import Broker.DataBlock;
-import Network.Client.Protocol.AuthenticationProtocol;
-import Network.Client.Protocol.ChannelRequestProtocol;
 import Network.Client.Protocol.DataConveyingProtocol;
-import Network.Client.Protocol.Protocol;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
 import Network.Useful.OResponse;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -24,11 +20,11 @@ public class ProducerClient extends Client{
         super(username, password, host, port, Constants.PRODUCER, channelList);
     }
 
-    public void startSending(String message){
-        startSending(message, channels);
+    public void sendMessage(String message){
+        sendMessage(message, channels);
     }
 
-    public void startSending(String message, Set<String> channelList){
+    public void sendMessage(String message, Set<String> channelList){
         for(String channel: channelList){
             if(!channels.contains(channel)){
                 continue;
@@ -48,7 +44,7 @@ public class ProducerClient extends Client{
     public void run() {
         connect();
         DataConveyingProtocol protocol = new DataConveyingProtocol();
-        while (isStarted){
+        while (isRunning){
             try {
                 DataBlock dataBlock = blockBlockingQueue.take();
 
@@ -60,24 +56,23 @@ public class ProducerClient extends Client{
                 //byte[] byteArray = new byte[payload.remaining()];
                 //payload.get(byteArray);
                 //bufferedOutputStream.write(byteArray);
-                protocol.sendRequest(requestBuilder.build(), outputStream);
                 //bufferedOutputStream.flush();
                 try {
+                    protocol.sendRequest(requestBuilder.build(), outputStream);
                     OResponse response = protocol.getResponse(inputStream);
                     if(response.getResponseStatus() == Constants.RESPONSE_STATUS_SUCCESS){
                         DataBlock db = response.getDataBlock();
                         System.out.println("Server Response: " + db);
                     }else {
-                        System.err.println(response.getMessage());
-                        throw new RuntimeException(response.getMessage());
+                        System.err.println(response.getDataBlock().getMessage());
                     }
 
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    System.err.println(e.getMessage());
                 }
                 //Thread.sleep(100);
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                System.err.println(e.getMessage());
             }
         }
     }

@@ -3,7 +3,6 @@ package Network.Client;
 import Broker.DataBlock;
 import Network.Client.Protocol.AuthenticationProtocol;
 import Network.Client.Protocol.ChannelRequestProtocol;
-import Network.Client.Protocol.DataConveyingProtocol;
 import Network.Client.Protocol.Protocol;
 import Network.Useful.Constants;
 import Network.Useful.ORequest;
@@ -24,7 +23,7 @@ public class Client extends Thread{
     protected final byte userType;
     protected String token;
     protected int capacity;
-    protected volatile boolean isStarted = true;
+    protected volatile boolean isRunning = true;
     protected Socket socket;
     protected InputStream inputStream;
     protected OutputStream outputStream;

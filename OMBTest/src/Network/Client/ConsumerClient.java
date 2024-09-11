@@ -1,8 +1,6 @@
 package Network.Client;
 
 import Broker.DataBlock;
-import Network.Client.Protocol.AuthenticationProtocol;
-import Network.Client.Protocol.ChannelRequestProtocol;
 import Network.Client.Protocol.DataConveyingProtocol;
 import Network.Client.Protocol.Protocol;
 import Network.Useful.Constants;
@@ -10,16 +8,8 @@ import Network.Useful.ORequest;
 import Network.Useful.OResponse;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class ConsumerClient extends Client{
 
@@ -40,7 +30,7 @@ public class ConsumerClient extends Client{
         }
     }
 
-    public DataBlock getDataBlock(String channel){
+    public DataBlock receiveData(String channel){
         BlockingQueue<DataBlock> dataBlocks = channelDataBlocks.get(channel);
         return dataBlocks.poll();
     }
@@ -60,7 +50,7 @@ public class ConsumerClient extends Client{
     public void run() {
         connect();
         startListening();
-        while (isStarted){
+        while (isRunning){
             Protocol protocol = new DataConveyingProtocol();
             try {
                 OResponse response = protocol.getResponse(inputStream);
@@ -68,7 +58,8 @@ public class ConsumerClient extends Client{
                 //System.out.println(dataBlock);
                 classifyDataBlock(dataBlock);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                isRunning = false;
+                System.err.println(e.getMessage());
             }
         }
     }

@@ -25,7 +25,7 @@ public class QueueBasedConsumptionStrategy implements ConsumptionStrategy {
         if(latestDataTime != null){
             LocalDateTime addedDateTime = dataBlock.getAddedDateTime();
             if(addedDateTime.isBefore(latestDataTime) || addedDateTime.isEqual(latestDataTime)){
-                System.out.println(dataBlock.getCreatedDateTime()+" - "+latestDataTime);
+                //System.out.println(dataBlock.getCreatedDateTime()+" - "+latestDataTime);
                 return null;
             }
         }

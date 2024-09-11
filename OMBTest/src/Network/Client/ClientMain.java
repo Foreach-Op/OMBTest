@@ -9,8 +9,8 @@ public class ClientMain {
     public static void main(String[] args) {
         String username = "oguz";
         String password = "oguz";
-        // String host = "localhost";
-        String host = "192.168.1.109";
+        String host = "localhost";
+        //String host = "192.168.1.109";
         int port = 12345;
 
         try(Scanner scanner = new Scanner(System.in)){
@@ -23,7 +23,7 @@ public class ClientMain {
                 // consumerClient.connect(host, port);
                 // consumerClient.startListening();
                 while (true){
-                    DataBlock dataBlock1 = consumerClient.getDataBlock("channel1");
+                    DataBlock dataBlock1 = consumerClient.receiveData("channel1");
                     //DataBlock dataBlock2 = consumerClient.getDataBlock("channel2");
                     if(dataBlock1 == null){
                         continue;
@@ -37,7 +37,7 @@ public class ClientMain {
 
                 while (true){
                     String message = scanner.nextLine();
-                    producerClient.startSending(message);
+                    producerClient.sendMessage(message);
                 }
             }
         }
@@ -48,7 +48,7 @@ public class ClientMain {
     }
 
     public static ProducerClient startProducerClient(String username, String password, String host, int port){
-        return new ProducerClient(username, password, host, port, List.of("channel1", "channel2"));
+        return new ProducerClient(username, password, host, port, List.of("channel1", "channel2", "channel3"));
 
     }
 }
