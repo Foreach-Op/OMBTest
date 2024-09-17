@@ -69,7 +69,6 @@ public class Client extends Thread{
                 }
             }
         }
-
     }
 
     private void authenticate(){
